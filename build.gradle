@@ -15,14 +15,9 @@ buildscript {
     }
 }
 
-allprojects {
-    group = 'com.opcooc'
-    version = project.opcoocVersion
-}
-
 description = "opcooc-storage-spring-boot-starter - 简单对象存储客户端驱动程序"
 
-subprojects {
+allprojects {
 
     apply plugin: 'java'
     apply plugin: 'idea'
@@ -30,6 +25,9 @@ subprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
     apply plugin: 'com.github.hierynomus.license'
+
+    group = 'com.opcooc'
+    version = project.opcoocVersion
 
     sourceCompatibility = project.javaSourceCompatibility
     targetCompatibility = project.javaTargetCompatibility
