@@ -26,7 +26,6 @@ import com.opcooc.storage.client.Client;
 import com.opcooc.storage.client.DefaultS3Client;
 import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
 import com.opcooc.storage.exception.StorageException;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

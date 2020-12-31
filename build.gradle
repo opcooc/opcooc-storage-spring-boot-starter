@@ -11,182 +11,188 @@ buildscript {
     dependencies {
         //noinspection DifferentKotlinGradleVersion
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72'
+        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0")
         classpath "gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:0.15.0"
     }
 }
 
 description = "opcooc-storage-spring-boot-starter - 简单对象存储客户端驱动程序"
 
-allprojects {
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'signing'
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: "org.sonarqube"
+apply plugin: 'com.github.hierynomus.license'
 
-    apply plugin: 'java'
-    apply plugin: 'idea'
-    apply plugin: 'signing'
-    apply plugin: 'java-library'
-    apply plugin: 'maven-publish'
-    apply plugin: 'com.github.hierynomus.license'
+group = 'com.opcooc'
+version = project.opcoocVersion
 
-    group = 'com.opcooc'
-    version = project.opcoocVersion
+sourceCompatibility = project.javaSourceCompatibility
+targetCompatibility = project.javaTargetCompatibility
 
-    sourceCompatibility = project.javaSourceCompatibility
-    targetCompatibility = project.javaTargetCompatibility
-
-    tasks.withType(JavaCompile) {
-        options.encoding = project.encoding
-        options.warnings = false
-        options.deprecation = true
-        options.compilerArgs += ["-parameters"]
+sonarqube {
+    properties {
+        property "sonar.projectKey", "opcooc_opcooc-storage-spring-boot-starter"
+        property "sonar.organization", "opcooc"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
+}
 
-    tasks.withType(GenerateModuleMetadata) {
-        enabled = false
-    }
+tasks.withType(JavaCompile) {
+    options.encoding = project.encoding
+    options.warnings = false
+    options.deprecation = true
+    options.compilerArgs += ["-parameters"]
+}
 
-    jar {
-        afterEvaluate {
-            manifest {
-                attributes 'Implementation-Version': archiveVersion
-                attributes 'Built-Gradle': gradle.gradleVersion
-                attributes 'Bundle-DocURL': 'http://www.opcooc.com/'
-                attributes 'Build-OS': System.getProperty("os.name")
-                attributes 'Built-By': System.getProperty("user.name")
-                attributes 'Build-Jdk': System.getProperty("java.version")
-                attributes 'Build-Timestamp': new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
-            }
+tasks.withType(GenerateModuleMetadata) {
+    enabled = false
+}
+
+jar {
+    afterEvaluate {
+        manifest {
+            attributes 'Implementation-Version': archiveVersion
+            attributes 'Built-Gradle': gradle.gradleVersion
+            attributes 'Bundle-DocURL': 'http://www.opcooc.com/'
+            attributes 'Build-OS': System.getProperty("os.name")
+            attributes 'Built-By': System.getProperty("user.name")
+            attributes 'Build-Jdk': System.getProperty("java.version")
+            attributes 'Build-Timestamp': new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
         }
     }
+}
 
-    license {
-        encoding = project.encoding
-        header = rootProject.file("license.txt")
-        includes(["**/*.java"])
-        exclude "**/test/**/*.java"
-        exclude "**/*Test.java"
-        mapping "java", "SLASHSTAR_STYLE"
-        ignoreFailures = true
+license {
+    encoding = project.encoding
+    header = rootProject.file("license.txt")
+    includes(["**/*.java"])
+    exclude "**/test/**/*.java"
+    exclude "**/*Test.java"
+    mapping "java", "SLASHSTAR_STYLE"
+    ignoreFailures = true
+}
+
+repositories {
+    mavenLocal()
+    maven { url "https://maven.aliyun.com/repository/public" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    jcenter()
+}
+
+dependencies {
+    api "com.amazonaws:aws-java-sdk-s3:$project.awsJavaSdkS3Version"
+    api "org.springframework.boot:spring-boot-autoconfigure:$project.springBootVersion"
+
+    annotationProcessor "org.springframework.boot:spring-boot-autoconfigure-processor:$project.springBootVersion"
+    implementation "org.springframework.boot:spring-boot-autoconfigure-processor:$project.springBootVersion"
+
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:$project.springBootVersion"
+    implementation "org.springframework.boot:spring-boot-configuration-processor:$project.springBootVersion"
+
+    implementation "org.springframework.boot:spring-boot-starter-aop:$project.springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-web:$project.springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:$project.springBootVersion"
+
+    compileOnly "org.projectlombok:lombok:$project.lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$project.lombokVersion"
+
+    implementation "org.slf4j:slf4j-api:$project.slf4jVersion"
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+javadoc {
+    afterEvaluate {
+        configure(options) {
+            encoding project.encoding
+            charSet project.encoding
+            author true
+            version true
+            failOnError false
+            links "http://docs.oracle.com/javase/8/docs/api"
+        }
     }
+}
+
+test {
+    dependsOn("cleanTest", "generatePomFileForMavenJavaPublication")
+    useJUnitPlatform()
+    exclude("**/storage/**")
+}
+
+task javadocJar(type: Jar) {
+    archiveClassifier = 'javadoc'
+    from javadoc
+}
+
+
+tasks.whenTaskAdded { task ->
+    if (task.name.contains('signMavenJavaPublication')) {
+        task.enabled = new File(project.property('signing.secretKeyRingFile') as String).isFile()
+    }
+}
+
+publishing {
 
     repositories {
-        mavenLocal()
-        maven { url "https://maven.aliyun.com/repository/public" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        jcenter()
-    }
+        maven {
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 
-    dependencies {
-        api "com.amazonaws:aws-java-sdk-s3:$project.awsJavaSdkS3Version"
-        implementation platform("org.springframework.boot:spring-boot-dependencies:$project.springBootVersion")
-
-        api "org.springframework.boot:spring-boot-autoconfigure:$project.springBootVersion"
-
-        annotationProcessor "org.springframework.boot:spring-boot-autoconfigure-processor:$project.springBootVersion"
-        implementation "org.springframework.boot:spring-boot-autoconfigure-processor:$project.springBootVersion"
-
-        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:$project.springBootVersion"
-        implementation "org.springframework.boot:spring-boot-configuration-processor:$project.springBootVersion"
-
-        implementation "org.springframework.boot:spring-boot-starter-aop:$project.springBootVersion"
-        implementation "org.springframework.boot:spring-boot-starter-web:$project.springBootVersion"
-        implementation "org.springframework.boot:spring-boot-starter-actuator:$project.springBootVersion"
-
-        compileOnly "org.projectlombok:lombok:$project.lombokVersion"
-        annotationProcessor "org.projectlombok:lombok:$project.lombokVersion"
-
-        implementation "org.slf4j:slf4j-api:$project.slf4jVersion"
-    }
-
-    task sourcesJar(type: Jar) {
-        archiveClassifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    javadoc {
-        afterEvaluate {
-            configure(options) {
-                encoding project.encoding
-                charSet project.encoding
-                author true
-                version true
-                failOnError false
-                links "http://docs.oracle.com/javase/8/docs/api"
+            credentials {
+                username project.sonatypeUsername
+                password project.sonatypePassword
             }
         }
     }
 
-    test {
-        dependsOn("cleanTest", "generatePomFileForMavenJavaPublication")
-        useJUnitPlatform()
-        exclude("**/storage/**")
-    }
+    publications {
 
-    task javadocJar(type: Jar) {
-        archiveClassifier = 'javadoc'
-        from javadoc
-    }
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
 
+            pom {
+                name = "opcooc-storage-spring-boot-starter"
+                packaging 'jar'
+                description = 'opcooc-storage-spring-boot-starter simple object storage client driver'
+                url = 'https://github.com/opcooc/opcooc-storage-spring-boot-starter'
 
-    tasks.whenTaskAdded { task ->
-        if (task.name.contains('signMavenJavaPublication')) {
-            task.enabled = new File(project.property('signing.secretKeyRingFile') as String).isFile()
-        }
-    }
-
-    publishing {
-
-        repositories {
-            maven {
-                def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
-                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-
-                credentials {
-                    username project.sonatypeUsername
-                    password project.sonatypePassword
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
                 }
-            }
-        }
 
-        publications {
+                developers {
+                    developer {
+                        id = 'opcooc'
+                        name = 'shenqicheng'
+                        email = '1317225796@qq.com'
+                    }
+                }
 
-            mavenJava(MavenPublication) {
-                from components.java
-                artifact sourcesJar
-                artifact javadocJar
-
-                pom {
-                    name = "opcooc-storage-spring-boot-starter"
-                    packaging 'jar'
-                    description = 'opcooc-storage-spring-boot-starter simple object storage client driver'
+                scm {
                     url = 'https://github.com/opcooc/opcooc-storage-spring-boot-starter'
-
-                    licenses {
-                        license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id = 'opcooc'
-                            name = 'shenqicheng'
-                            email = '1317225796@qq.com'
-                        }
-                    }
-
-                    scm {
-                        url = 'https://github.com/opcooc/opcooc-storage-spring-boot-starter'
-                        connection = 'scm:git:https://github.com/opcooc/opcooc-storage-spring-boot-starter'
-                        developerConnection = 'scm:git:git@github.com:opcooc/opcooc-storage-spring-boot-starter.git'
-                    }
-
+                    connection = 'scm:git:https://github.com/opcooc/opcooc-storage-spring-boot-starter'
+                    developerConnection = 'scm:git:git@github.com:opcooc/opcooc-storage-spring-boot-starter.git'
                 }
+
             }
         }
     }
+}
 
-    signing {
-        sign publishing.publications.mavenJava
-    }
+signing {
+    sign publishing.publications.mavenJava
 }

@@ -16,8 +16,8 @@
  */
 package com.opcooc.storage.provider;
 
-import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
 import com.opcooc.storage.drivers.ClientDriver;
+import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
