@@ -41,14 +41,15 @@ sonarqube {
         property "sonar.host.url", "https://sonarcloud.io"
     }
 }
+
 checkstyle {
     configFile = file("style/checkstyle.xml") //指定checkstyle配置文件
     toolVersion = "8.37" //指定checkstyle工具的版本，部分style规则有版本要求
 
-    // Whether or not to allow the build to continue if there are warnings.
+    //有警告时是否允许构建继续进行.
     ignoreFailures = false
 
-    // Whether or not rule violations are to be displayed on the console.
+    //是否在控制台上显示违反规则.
     showViolations = true
 }
 
