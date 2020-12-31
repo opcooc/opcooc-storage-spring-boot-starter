@@ -27,8 +27,6 @@ build/
 /dist/
 /nbdist/
 /.nb-gradle/
-gradlew
-gradlew.bat
 
 ### VS Code ###
 .vscode/
