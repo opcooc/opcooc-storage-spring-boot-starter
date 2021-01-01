@@ -1,6 +1,6 @@
 /*
  * Copyright © 2020-2029 organization opcooc
- * <pre>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.opcooc.storage.spring.boot.autoconfigure;
 
 import java.util.function.Supplier;
@@ -147,6 +146,7 @@ public class ClientDriverProperty {
 
     /**
      * 客户端驱动参数预处理
+     * @return 是否检查通过
      */
     public boolean preCheck() {
         return StringUtils.hasText(accessKey) && StringUtils.hasText(secretKey) && StringUtils.hasText(endPoint);
@@ -163,6 +163,9 @@ public class ClientDriverProperty {
 
     /**
      * 客户端驱动参数预处理(抛出自定义异常)
+     * @param exceptionSupplier 自定义异常
+     * @param <E> 自定义异常
+     * @throws E 自定义异常
      */
     public <E extends Throwable> void preCheckThrow(Supplier<? extends E> exceptionSupplier) throws E {
         if (!preCheck()) {

@@ -1,0 +1,581 @@
+Checkstyle的配置详解 (https://www.cnblogs.com/zhi-xing/p/10370863.html)
+    Checkstyle是一款检查java程序代码样式的工具，可以有效的帮助我们检视代码以便更好的遵循代码编写标准，特别适用于小组开发时彼此间的样式规范和统一。Checkstyle提供了高可配置性，以便适用于各种代码规范，所以除了可以使用它提供的sun的代码标准外，你也可以定制自己的标准。我们可以在eclipse中安装checkstyle的插件，来方便我们的使用。
+
+   Checkstyle可以让我们养成书写良好代码风格的习惯，代码的整洁也减少了很多bad smell的产生。使用checkstyle的过程中可能需要经常的调整配置文件，有些check过于严格，可以根据实际情况取消一些代码检查。
+
+Checkstyle的配置
+
+Checkstyle配置是通过指定modules来应用到java文件的。modules是树状结构，以一个名为Checker的module作为root节点，一般的checker都会包括TreeWalker子module。我们可以参照checkstyle中的sun_checks.xml，这是根据sun的java语言规范写的配置。
+
+在xml配置文件中通过module的name属性来区分module，module的Properties可以控制如何去执行这个module，每个property都有一个默认值，所有的check都有一个severity属性，用它来指定check的level。TreeWalker为每个java文件创建一个语法树，在节点之间调用submodules的Checks。
+
+下面来看看standard checks中的一些具体用法。
+
+Javadoc Comments
+
+l         JavadocPackage
+
+检查每个java package中是否有java注释文件，默认是允许一个package-info.java，也可以通过allowLegacy属性配置允许package.html。
+
+l         JavadocType
+
+检查类和接口的javadoc。默认不检查author 和version tags。
+
+l         JavadocMethod
+
+检查方法和构造函数的javadoc。默认不检查未使用的异常抛出。
+
+l         JavadocVariable
+
+检查变量的javadoc。
+
+l         JavadocStyle
+
+检查javadoc的格式。比如：javadoc的第一行是否以句号结束，javadoc除了tags外是否有description，检查javadoc中的html格式。
+
+l         WriteTag
+
+输出javadoc中的tag。
+
+Naming Conventions
+
+l        AbstractClassName
+
+检查抽象类名。
+
+l         ClassTypeParameterName
+
+检查类的Parameter名。
+
+l         ConstantName
+
+检查常量名。
+
+l         LocalFinalVariableName
+
+检查局部的final类型变量名，包括catch的参数。
+
+l         LocalVarableName
+
+检查局部的非final类型的变量名，包括catch的参数。
+
+l         MemberName
+
+检查非静态变量。
+
+l         MethodName
+
+检查方法名。
+
+l         MethodTypeParameterName
+
+检查方法的参数名。
+
+l         PackageName
+
+检查包名。
+
+l         ParameterName
+
+检查参数名。
+
+l         StaticVariableName
+
+检查静态的，非final类型的变量名。
+
+l         TypeName
+
+检查类名和接口名。
+
+Imports
+
+l         AvoidStarImport
+
+检查是否有使用*进行import。
+
+l         AvoidStaticImport
+
+检查是否有静态import。比如是否导入了java.lang包中的内容。
+
+l         IllegalImport
+
+检查是否import了违法的包。默认拒绝import所有sun.*包。
+
+l         RedundanImport
+
+检查是否有重复的import。
+
+l         UnusedImports
+
+检查是否有未使用的import。
+
+l         ImportOrder
+
+检查import的分组和顺序。
+
+l         ImportControl
+
+控制可import的包。在一个较大的project可限制使用过多的第三方包，通过一个依照http://www.puppycrawl.com/dtds/import_control_1_0.dtd的xml文件来指定。
+
+Size Violations
+
+l         ExecutableStatementCount
+
+限制可执行代码片段的长度。默认为30。
+
+l         FileLength
+
+检查java文件的长度。默认为2000。
+
+l         LineLength
+
+检查代码行的长度。默认为80。
+
+l         MethodLength
+
+检查方法和构造函数的长度。默认为150。
+
+l         AnonInnerLength
+
+检查匿名内部类的长度。默认为20。
+
+l         ParameterNumber
+
+检查方法和构造函数的参数个数。默认为7。
+
+Whitespace
+
+l        GenericWhitespace
+
+检查<和>周围的空白。
+
+l         EmptyForInitializerPad
+
+检查空的初始化位置的空白。比如for循环中的初始化。
+
+l         EmptyForIteratorPad
+
+检查空的迭代位置的空白。
+
+l         MethodParamPad
+
+检查方法签名之前的空白。
+
+l         NoWhitespaceAfter
+
+检查分隔符后的空白。
+
+l         NoWhitespaceBefore
+
+检查分隔符前的空白。
+
+l         OperatorWrap
+
+检查操作符的空白规则。
+
+l         ParenPad
+
+检查圆括号的空白规则。
+
+l         TypecaseParenPad
+
+检查强制转型的圆括号的空白规则。
+
+l         TabCharacter
+
+检查是否有Tab字符（’"t’）。
+
+l         WhitespaceAfter
+
+检查分隔符是否在空白之后。
+
+l         WhitespaceAround
+
+检查分隔符周围是否有空白。
+
+ModifierOrder
+
+l         ModifierOrder
+
+检查修饰符的顺序是否遵照java语言规范。
+
+l         RedundantModifier
+
+检查接口和annotation中是否有重复的修饰符。
+
+Block Checks
+
+l         EmptyBlock
+
+检查空的代码块。
+
+l         LeftCurly
+
+检查’{’和左边的代码块是否在同一行。
+
+l         NeedBraces
+
+检查是否需要大括号。主要是在if，else时的情况。
+
+l         RightCurly
+
+检查’}’。
+
+l         AvoidNestedBlocks
+
+检查不需要的嵌套’{}’。
+
+Coding
+
+l         ArrayTrailingComma
+
+检查数组初始化是否以逗号结束。
+
+l         AvoidInlineConditionals
+
+检查inline的条件操作。
+
+l         CovariantEquals
+
+检查类是否覆盖了equals(java.lang.Object)。
+
+l         DoubleCheckedLocking
+
+检查DCL的问题。
+
+l         EmptyStatement
+
+检查空的代码段。
+
+l         EqualsAvoidNull
+
+检查一个可能为null的字符串是否在equals()比较的左边。
+
+l         EqualsHashCode
+
+检查类是否覆盖了equals()和hashCode()。
+
+l         FinalLocalVariable
+
+检查未改变过的局部变量是否声明为final。
+
+l         HiddenField
+
+检查局部变量或参数是否隐藏了类中的变量。
+
+l         IllegalInstantiation
+
+检查是否使用工厂方法实例化。
+
+l         IllegalToken
+
+检查非法的分隔符。
+
+l         IllegalTokenText
+
+检查非法的分隔符的下个字符。
+
+l         InnerAssignment
+
+检查子表达式中是否有赋值操作。
+
+l         MagicNumber
+
+检查是否有“magic numbers”。
+
+l         MissingSwitchDefault
+
+检查switch语句是否有default的clause。
+
+l         ModifiedControlVariable
+
+检查循环控制的变量是否在代码块中被修改。
+
+l         RedundantThrows
+
+检查是否有被重复抛出的异常。
+
+l         SimplifyBooleanExpression
+
+检查是否有过度复杂的布尔表达式。
+
+l         SimplifyBooleanReturn
+
+检查是否有过于复杂的布尔返回代码段。
+
+l         StringLiteralEquality
+
+检查字符串是否有用= =或!=进行操作。
+
+l         NestedIfDepth
+
+检查嵌套的层次深度。
+
+l         NestedTryDepth
+
+检查try的层次深度。
+
+l         NoClone
+
+检查是否覆盖了clone()。
+
+l         NoFinalizer
+
+检查是否有定义finalize()。
+
+l         SuperClone
+
+检查覆盖的clone()是否有调用super.clone()。
+
+l         SuperFinalize
+
+检查覆盖的finalize()是否有调用super.finalize()。
+
+l         IllegalCatch
+
+检查是否catch了不能接受的错误。
+
+l         IllegalThrows
+
+检查是否抛出了未声明的异常。
+
+l         PackageDeclaration
+
+检查类中是否有声明package。
+
+l         JUnitTestCase
+
+确保setUp(), tearDown()方法签名的正确性。
+
+l         ReturnCount
+
+限制return代码段的数量。
+
+l         IllegalType
+
+检查未使用过的类。
+
+l         DeclarationOrder
+
+检查类和接口中的声明顺序。
+
+l         ParameterAssignment
+
+检查不允许的参数赋值。
+
+l         ExplicitInitialization
+
+检查类和对象成员是否初始化为默认值。
+
+l         DefaultComesLast
+
+检查default的clause是否在switch代码段的最后。
+
+l         MissingCtor
+
+检查类依赖。
+
+l         FallThrough
+
+检查switch代码的case中是否缺少break，return，throw和continue。
+
+l         MultipleStringLiterals
+
+检查一个文件中是否有多次出现的字符串。
+
+l         MultipleVariableDeclarations
+
+检查代码段和代码行中是否有多次变量声明。
+
+l         RequireThis
+
+检查代码中是否有“this.”。
+
+l         UnnecessaryParentheses
+
+检查是否有使用不需要的圆括号。
+
+Class Design
+
+l         VisibilityModifier
+
+检查类成员的可见度。
+
+l         FinalClass
+
+检查只有private构造函数的类是否声明为final。
+
+l         InterfaceIsType
+
+检查接口是否仅定义类型。
+
+l         HideUtilityClassConstructor
+
+检查工具类是否有putblic的构造器。
+
+l         DesignForExension
+
+检查类是否为扩展设计。
+
+l         MutableException
+
+确保异常是不可变的。
+
+l         ThrowsCount
+
+限制抛出异常的数量。
+
+Duplicate Code
+
+l         StrictDuplicateCode
+
+严格检查重复代码。
+
+Miscellaneous
+
+l         GenericIllegalRegexp
+
+正则表达式的模式检查。
+
+l         NewlineAtEndOfFile
+
+检查文件是否以一个空行结束。
+
+l         TodoComment
+
+检查TODO:注释。
+
+l         Translation
+
+检查property文件中是否有相同的key。
+
+l         UncommentedMain
+
+检查是否有未注释的main方法。
+
+l         UpperEll
+
+检查long型约束是否有大写的“L”。
+
+l         ArrayTypeStyle
+
+检查数组类型定义的样式。
+
+l         FinalParameters
+
+检查方法名、构造函数、catch块的参数是否是final的。
+
+l         Indentation
+
+检查代码中正确的缩进。
+
+l         TrailingComment
+
+确保是否要代码行注释。
+
+l         RequiredRegexp
+
+确保一个指定的正则表达式的规则已经存在代码中。
+
+Checkstyle常见的错误提示
+
+1.       Type is missing a javadoc commentClass
+
+缺少类型说明
+
+2.       “{” should be on the previous line
+
+“{” 应该位于前一行
+
+3.       Methods is missing a javadoc comment
+
+方法前面缺少javadoc注释
+
+4.       Expected @throws tag for “Exception”
+
+在注释中希望有@throws的说明
+
+5.       “.” Is preceeded with whitespace “.”
+
+前面不能有空格
+
+6.       “.” Is followed by whitespace“.”
+
+后面不能有空格
+
+7.       “=” is not preceeded with whitespace
+
+“=” 前面缺少空格
+
+8.       “=” is not followed with whitespace
+
+“=” 后面缺少空格
+
+9.       “}” should be on the same line
+
+“}” 应该与下条语句位于同一行
+
+10.    Unused @param tag for “unused”
+
+没有参数“unused”，不需注释
+
+11.    Variable “CA” missing javadoc
+
+变量“CA”缺少javadoc注释
+
+12.    Line longer than 80characters
+
+行长度超过80
+
+13.    Line contains a tab character
+
+行含有”tab” 字符
+
+14.    Redundant “Public” modifier
+
+冗余的“public” modifier
+
+15.    Final modifier out of order with the JSL
+
+suggestionFinal modifier的顺序错误
+
+16.    Avoid using the “.*” form of import
+
+Import格式避免使用“.*”
+
+17.    Redundant import from the same package
+
+从同一个包中Import内容
+
+18.    Unused import-java.util.list
+
+Import进来的java.util.list没有被使用
+
+19.    Duplicate import to line 13
+
+重复Import同一个内容
+
+20.    Import from illegal package
+
+从非法包中 Import内容
+
+21.    “while” construct must use “{}”
+
+“while” 语句缺少“{}”
+
+22.    Variable “sTest1” must be private and have accessor method
+
+变量“sTest1”应该是private的，并且有调用它的方法
+
+23.    Variable “ABC” must match pattern “^[a-z][a-zA-Z0-9]*$”
+
+变量“ABC”不符合命名规则“^[a-z][a-zA-Z0-9]*$”
+
+24.    “(” is followed by whitespace
+
+“(” 后面不能有空格
+
+25.    “)” is proceeded by whitespace
+
+“)” 前面不能有空格
+
