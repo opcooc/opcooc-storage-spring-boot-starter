@@ -21,10 +21,10 @@ description = "opcooc-storage-spring-boot-starter - 简单对象存储客户端�
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'signing'
+apply plugin: 'checkstyle'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: 'org.sonarqube'
-apply plugin: 'checkstyle'
 apply plugin: 'com.github.hierynomus.license'
 
 group = 'com.opcooc'

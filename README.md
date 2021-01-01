@@ -1,16 +1,16 @@
 <p align="center">
-  <a href="https://github.com/opcooc/opcooc-storage">
-   <img alt="opcooc-storage-logo" src="https://gitee.com/opcooc/opcooc-storage/raw/master/doc/img/opcooc-storage.png">
+  <a href="https://github.com/opcooc/opcooc-storage-spring-boot-starter">
+   <img alt="opcooc-storage-logo" src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/opcooc-storage.png">
   </a>
 </p>
 
 <p align="center">
-  <strong>opcooc-storage-boot-starter是一个基于aws s3快速集成多storage client的启动器</strong>
+  <strong>opcooc-storage-spring-boot-starter 是一个基于aws s3快速集成多storage client的启动器</strong>
 </p>
 
 <p align="center">
-	<a target="_blank" href="https://search.maven.org/search?q=g:com.opcooc%20AND%20a:opcooc-storage-boot-starter">
-		<img alt='maven' src="https://img.shields.io/maven-central/v/com.opcooc/opcooc-storage-boot-starter" />
+	<a target="_blank" href="https://search.maven.org/search?q=g:com.opcooc%20AND%20a:opcooc-storage-spring-boot-starter">
+		<img alt='maven' src="https://img.shields.io/maven-central/v/com.opcooc/opcooc-storage-spring-boot-starter" />
 	</a>
 	<a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
 		<img alt='license' src="https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=square" />
@@ -18,17 +18,17 @@
 	<a target="_blank" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">
 		<img alt='JDK' src="https://img.shields.io/badge/JDK-1.8+-green.svg" />
 	</a>
-	<a target="_blank" href="https://github.com/opcooc/opcooc-storage/wiki" title="参考文档">
+	<a target="_blank" href="https://github.com/opcooc/opcooc-storage-spring-boot-starter/wiki" title="参考文档">
 		<img alt='Docs' src="https://img.shields.io/badge/Docs-latest-blueviolet.svg" />
 	</a>
-	<a target="_blank" href='https://gitee.com/opcooc/opcooc-storage/stargazers'>
-	  <img alt='gitee star' src='https://gitee.com/opcooc/opcooc-storage/badge/star.svg?theme=white'/>
+	<a target="_blank" href='https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/stargazers'>
+	  <img alt='gitee star' src='https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/badge/star.svg?theme=white'/>
 	</a>
-	<a target="_blank" href='https://github.com/opcooc/opcooc-storage'>
-		<img alt="github star" src="https://img.shields.io/github/stars/opcooc/opcooc-storage?style=social"/>
+	<a target="_blank" href='https://github.com/opcooc/opcooc-storage-spring-boot-starter'>
+		<img alt="github star" src="https://img.shields.io/github/stars/opcooc/opcooc-storage-spring-boot-starter?style=social"/>
 	</a>
-	<a target="_blank" href='https://gitter.im/opcooc/opcooc-storage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge'>
-		<img alt="gitter" src="https://img.shields.io/gitter/room/opcooc/opcooc-storage"/>
+	<a target="_blank" href='https://gitter.im/opcooc/opcooc-storage-spring-boot-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge'>
+		<img alt="gitter" src="https://img.shields.io/gitter/room/opcooc/opcooc-storage-spring-boot-starter"/>
 	</a>
 
 </p>
@@ -36,11 +36,11 @@
 <div style="text-align: center;">
     <table>
         <tr>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage/raw/master/doc/img/aws-s3.png" width="36" alt="aws-s3"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage/raw/master/doc/img/tencent-cos.png" width="70" alt="tencent-cos"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage/raw/master/doc/img/minio.png" width="70" alt="minio"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage/raw/master/doc/img/aliyun-oss.png" width="70" alt="aliyun-oss"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage/raw/master/doc/img/qiliu.png" width="70" alt="qiliu"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/aws-s3.png" width="36" alt="aws-s3"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/tencent-cos.png" width="70" alt="tencent-cos"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/minio.png" width="70" alt="minio"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/aliyun-oss.png" width="70" alt="aliyun-oss"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/qiliu.png" width="70" alt="qiliu"/></td>
         </tr>
     </table>
 </div>
@@ -75,13 +75,13 @@
         ```xml
             <dependency>
               <groupId>com.opcooc</groupId>
-              <artifactId>opcooc-storage-boot-starter</artifactId>
-              <version>1.2.3</version>
+              <artifactId>opcooc-storage-spring-boot-starter</artifactId>
+              <version>1.0.0</version>
             </dependency>
         ```
     -   Gradle
         ```groovy
-        compile group: 'com.opcooc', name: 'opcooc-storage-boot-starter', version: '1.2.3'
+        compile group: 'com.opcooc', name: 'opcooc-storage-spring-boot-starter', version: '1.0.0'
         ```
 
 ## 添加配置，在 `application.yml` 中添加配置信息
@@ -278,7 +278,7 @@
    
 -------------------------------------------------------------------------------
 
-> 该展示只是 opcooc-storage 功能的一小部分。如果您想了解更多信息，请参阅项目demo [documentation](https://gitee.com/opcooc/opcooc-storage/tree/master/demo/opcooc-storage-boot-starter-example/src/main/java/com/example/demo/controller).
+> 该展示只是 opcooc-storage-spring-boot-starter 功能的一小部分。如果您想了解更多信息，请参阅项目demo [documentation](https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/tree/master/demo/opcooc-storage-boot-starter-example/src/main/java/com/example/demo/controller).
 
 ## 友情链接
 
@@ -294,11 +294,11 @@
 
 ## 参与贡献
 
-1. Fork [本项目](https://github.com/opcooc/opcooc-storage)
+1. Fork [本项目](https://github.com/opcooc/opcooc-storage-spring-boot-starter)
 2. 新建 Feat_xxx 分支
 3. 提交代码
 4. 新建 Pull Request
 
 ## License
 
-opcooc-storage is under the Apache 2.0 license. See the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) file for details.
+opcooc-storage-spring-boot-starter is under the Apache 2.0 license. See the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) file for details.
