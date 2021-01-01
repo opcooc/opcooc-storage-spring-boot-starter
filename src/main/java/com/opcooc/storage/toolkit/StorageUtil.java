@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2025 organization opcooc
+ * Copyright © 2020-2029 organization opcooc
  * <pre>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * <pre/>
  */
+
 package com.opcooc.storage.toolkit;
+
+import java.lang.reflect.Constructor;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.ClassUtils;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectResult;
@@ -22,10 +27,6 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.opcooc.storage.args.BucketArgs;
 import com.opcooc.storage.args.ObjectArgs;
 import com.opcooc.storage.model.FileBasicInfo;
-import org.springframework.beans.BeanUtils;
-import org.springframework.util.ClassUtils;
-
-import java.lang.reflect.Constructor;
 
 /**
  * 公共的工具类
