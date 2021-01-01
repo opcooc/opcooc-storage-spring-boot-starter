@@ -53,7 +53,7 @@
 ## 文档 | Documentation
 
 [![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](README.md)
-[![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README.md)
+[![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README.md) [![Join the chat at https://gitter.im/opcooc/opcooc-storage-spring-boot-starter](https://badges.gitter.im/opcooc/opcooc-storage-spring-boot-starter.svg)](https://gitter.im/opcooc/opcooc-storage-spring-boot-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
 ## 特性
