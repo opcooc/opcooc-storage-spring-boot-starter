@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2025 organization opcooc
+ * Copyright © 2020-2029 organization opcooc
  * <pre>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,10 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * <pre/>
  */
+
 package com.opcooc.storage.spring.boot.autoconfigure;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 
 import com.opcooc.storage.StorageClient;
 import com.opcooc.storage.aop.DynamicClientAnnotationAdvisor;
@@ -31,15 +39,8 @@ import com.opcooc.storage.provider.YmlClientDriverProvider;
 import com.opcooc.storage.support.BucketConverter;
 import com.opcooc.storage.support.ClientDriverHealthIndicator;
 import com.opcooc.storage.support.ObjectConverter;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Role;
 
 /**
  * 自动IOC注入类
@@ -119,7 +120,6 @@ public class DynamicStorageAutoConfiguration {
         sessionProcessor.setNextProcessor(spelExpressionProcessor);
         return headerProcessor;
     }
-
 
     @Role(value = BeanDefinition.ROLE_INFRASTRUCTURE)
     @Bean

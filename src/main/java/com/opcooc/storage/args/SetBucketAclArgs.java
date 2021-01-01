@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2025 organization opcooc
+ * Copyright © 2020-2029 organization opcooc
  * <pre>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,15 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * <pre/>
  */
+
 package com.opcooc.storage.args;
 
+import static com.opcooc.storage.toolkit.StorageChecker.validateNotNull;
+
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-
-import static com.opcooc.storage.toolkit.StorageChecker.validateNotNull;
 
 /**
  * @author shenqicheng
@@ -28,7 +29,7 @@ import static com.opcooc.storage.toolkit.StorageChecker.validateNotNull;
  */
 @Getter
 @SuperBuilder(toBuilder = true)
-public class SetBucketAclArgs extends BucketArgs{
+public class SetBucketAclArgs extends BucketArgs {
 
     /** The canned ACL to apply to the specified bucket. */
     private CannedAccessControlList cannedAcl;

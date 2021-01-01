@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2025 organization opcooc
+ * Copyright © 2020-2029 organization opcooc
  * <pre>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,15 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * <pre/>
  */
-package com.opcooc.storage.holder;
 
-import org.springframework.core.NamedThreadLocal;
-import org.springframework.util.StringUtils;
+package com.opcooc.storage.holder;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+
+import org.springframework.core.NamedThreadLocal;
+import org.springframework.util.StringUtils;
 
 /**
  * Copyright © 2018 organization baomidou
@@ -36,7 +36,7 @@ import java.util.Deque;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * <pre/>
+ * </pre>
  */
 public final class DynamicClientContextHolder {
 
