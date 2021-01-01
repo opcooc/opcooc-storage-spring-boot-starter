@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/opcooc/opcooc-storage-spring-boot-starter">
-   <img alt="opcooc-storage-logo" src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/opcooc-storage.png">
+   <img alt="opcooc-storage-logo" src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/opcooc-storage.png">
   </a>
 </p>
 
@@ -36,11 +36,11 @@
 <div style="text-align: center;">
     <table>
         <tr>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/aws-s3.png" width="36" alt="aws-s3"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/tencent-cos.png" width="70" alt="tencent-cos"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/minio.png" width="70" alt="minio"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/aliyun-oss.png" width="70" alt="aliyun-oss"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/master/doc/img/qiliu.png" width="70" alt="qiliu"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/aws-s3.png" width="36" alt="aws-s3"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/tencent-cos.png" width="70" alt="tencent-cos"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/minio.png" width="70" alt="minio"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/aliyun-oss.png" width="70" alt="aliyun-oss"/></td>
+            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/qiliu.png" width="70" alt="qiliu"/></td>
         </tr>
     </table>
 </div>
