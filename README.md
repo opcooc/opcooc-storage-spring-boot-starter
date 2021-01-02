@@ -279,7 +279,7 @@
 
 - [justAuth-spring-security-starter（spring security 集成 JustAuth 实现第三方授权登录）](https://gitee.com/pcore/just-auth-spring-security-starter)
 
-## 鸣谢
+## 参考项目
 
 | Project                                                              |
 | -------------------------------------------------------------------- |
