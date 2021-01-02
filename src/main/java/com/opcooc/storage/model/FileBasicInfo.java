@@ -59,12 +59,12 @@ public class FileBasicInfo {
     /**
      * 自定义用户元数据，在响应中以x-amz-meta- 标头前缀表示
      */
-    private Map<String, String> userMetadata = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+    private Map<String, String> userMetadata = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     /**
      * 所有其他（非用户自定义）标头，例如Content-Length，Content-Type，等
      */
-    private Map<String, Object> metadata = new TreeMap<String, Object>(String.CASE_INSENSITIVE_ORDER);
+    private Map<String, Object> metadata = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     /**
      * 返回指定键的元数据的原始值

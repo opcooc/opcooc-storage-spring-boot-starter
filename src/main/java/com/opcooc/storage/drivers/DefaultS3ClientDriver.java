@@ -59,7 +59,7 @@ public class DefaultS3ClientDriver implements ClientDriver {
         return configuration;
     }
 
-    public AmazonS3 init(ClientDriverProperty configuration) {
+    private AmazonS3 init(ClientDriverProperty configuration) {
 
         AWSCredentials credentials = new BasicAWSCredentials(configuration.getAccessKey(), configuration.getSecretKey());
 
