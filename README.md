@@ -33,18 +33,6 @@
 
 </p>
 
-<div style="text-align: center;">
-    <table>
-        <tr>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/aws-s3.png" width="36" alt="aws-s3"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/tencent-cos.png" width="70" alt="tencent-cos"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/minio.png" width="70" alt="minio"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/aliyun-oss.png" width="70" alt="aliyun-oss"/></td>
-            <td align="center" width="200"><img src="https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/raw/main/doc/img/qiliu.png" width="70" alt="qiliu"/></td>
-        </tr>
-    </table>
-</div>
-
 -------------------------------------------------------------------------------
 
 - QQ交流群 `789585778`，可获取各项目详细图文文档、疑问解答
@@ -67,6 +55,11 @@
 7. 提供基于Spring的客户端驱动 **健康检查**。
 8. 提供 **bucketConverter** bucketName 自定义转换器(有自动创建bucketName判断，会通过环境变量判断)。
 9. 提供 **objectConverter** objectName 自定义转换器。
+10. 支持 [aws s3](https://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html), 
+[阿里云oss](https://help.aliyun.com/document_detail/64919.html), 
+[minio](http://docs.minio.org.cn/docs/master/how-to-use-aws-sdk-for-java-with-minio-server), 
+[腾讯云cos](https://cloud.tencent.com/document/product/436/37421), 
+[七牛云kodo](https://developer.qiniu.com/kodo/manual/4086/aws-s3-compatible) 等。
 
 ## 快速开始
 
@@ -278,7 +271,7 @@
    
 -------------------------------------------------------------------------------
 
-> 该展示只是 opcooc-storage-spring-boot-starter 功能的一小部分。如果您想了解更多信息，请参阅项目demo [documentation](https://gitee.com/opcooc/opcooc-storage-spring-boot-starter/tree/master/demo/opcooc-storage-boot-starter-example/src/main/java/com/example/demo/controller).
+> 该展示只是 opcooc-storage-spring-boot-starter 功能的一小部分。如果您想了解更多信息，请参阅项目demo [documentation](https://github.com/opcooc/opcooc-storage-spring-boot-starter/wiki).
 
 ## 友情链接
 
