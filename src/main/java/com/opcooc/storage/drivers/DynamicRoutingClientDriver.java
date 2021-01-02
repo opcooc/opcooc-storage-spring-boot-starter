@@ -28,6 +28,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.StringUtils;
 
 import com.opcooc.storage.event.ClientDriverEvent;
+import com.opcooc.storage.exception.StorageException;
 import com.opcooc.storage.holder.DynamicClientContextHolder;
 import com.opcooc.storage.provider.ClientDriverProvider;
 import com.opcooc.storage.toolkit.StorageConstant;
@@ -87,7 +88,7 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
             return clientDriverMap.get(driverName);
         }
         if (strict) {
-            throw new RuntimeException("opcooc-storage - could not find a client driver named" + driverName);
+            throw new StorageException("opcooc-storage - could not find a client driver named" + driverName);
         }
         return determinePrimaryClientDriver();
     }
@@ -115,10 +116,10 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
      */
     public synchronized void removeClientDriver(String driverName) {
         if (!StringUtils.hasText(driverName)) {
-            throw new RuntimeException("opcooc-storage - remove parameter could not be empty");
+            throw new StorageException("opcooc-storage - remove parameter could not be empty");
         }
         if (primary.equals(driverName)) {
-            throw new RuntimeException("opcooc-storage - could not remove primary client driver");
+            throw new StorageException("opcooc-storage - could not remove primary client driver");
         }
         if (clientDriverMap.containsKey(driverName)) {
             ClientDriver clientDriver = clientDriverMap.get(driverName);
@@ -154,7 +155,7 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
         if (clientDriverMap.containsKey(primary)) {
             log.info("opcooc-storage - initial loaded [{}] client driver,primary client driver named [{}]", clientDriverMap.size(), primary);
         } else {
-            throw new RuntimeException("opcooc-storage - please check the setting of primary");
+            throw new StorageException("opcooc-storage - please check the setting of primary");
         }
     }
 

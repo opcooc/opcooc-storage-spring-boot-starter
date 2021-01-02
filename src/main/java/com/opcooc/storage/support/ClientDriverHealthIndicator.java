@@ -51,12 +51,12 @@ public class ClientDriverHealthIndicator extends AbstractHealthIndicator {
             Map<String, ClientDriver> clientDriverMap = ((DynamicRoutingClientDriver) clientDriver).getCurrentClientDrivers();
             builder.up().withDetail("clientDriver", "DynamicRoutingClientDriver");
             // 循环检查当前客户端驱动是否可用
-            for (Map.Entry<String, ClientDriver> clientDriver : clientDriverMap.entrySet()) {
+            for (Map.Entry<String, ClientDriver> driver : clientDriverMap.entrySet()) {
                 Integer result = 0;
                 try {
-                    result = doClientDriverCheck(clientDriver.getValue());
+                    result = doClientDriverCheck(driver.getValue());
                 } finally {
-                    builder.withDetail(clientDriver.getKey(), result);
+                    builder.withDetail(driver.getKey(), result);
                 }
             }
         }

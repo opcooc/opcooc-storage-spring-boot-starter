@@ -303,15 +303,15 @@ public class StorageClient implements InitializingBean, Client {
     @Override
     public void afterPropertiesSet() throws Exception {
         if (clientDriver == null) {
-            throw new RuntimeException("opcooc-storage - clientSource must not be null");
+            throw new StorageException("opcooc-storage - clientSource must not be null");
         }
 
         if (bucketConverter == null) {
-            throw new RuntimeException("opcooc-storage - bucketConverter must not be null");
+            throw new StorageException("opcooc-storage - bucketConverter must not be null");
         }
 
         if (objectConverter == null) {
-            throw new RuntimeException("opcooc-storage - objectConverter must not be null");
+            throw new StorageException("opcooc-storage - objectConverter must not be null");
         }
     }
 }

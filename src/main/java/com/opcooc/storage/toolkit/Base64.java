@@ -115,15 +115,12 @@ public class Base64 {
                 result.append(intToAlpha[(byte0 << 4) & 0x3f]);
                 result.append("==");
             } else {
-                // assert numBytesInPartialGroup == 2;
                 int byte1 = a[inCursor++] & 0xff;
                 result.append(intToAlpha[(byte0 << 4) & 0x3f | (byte1 >> 4)]);
                 result.append(intToAlpha[(byte1 << 2) & 0x3f]);
                 result.append('=');
             }
         }
-        // assert inCursor == a.length;
-        // assert result.length() == resultLen;
         return result.toString();
     }
 
@@ -187,8 +184,6 @@ public class Base64 {
                 result[outCursor++] = (byte) ((ch1 << 4) | (ch2 >> 2));
             }
         }
-        // assert inCursor == s.length()-missingBytesInLastGroup;
-        // assert outCursor == result.length;
         return result;
     }
 

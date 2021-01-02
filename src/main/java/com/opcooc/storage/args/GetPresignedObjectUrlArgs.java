@@ -33,7 +33,7 @@ public class GetPresignedObjectUrlArgs extends ObjectArgs {
     //defaults to 15 minutes
     public static final long DEFAULT_EXPIRY_TIME = 15;
     //max to 7 days
-    public static final long MAX_EXPIRY_TIME = 60 * 24 * 7;
+    public static final long MAX_EXPIRY_TIME = 60 * 24 * 7L;
 
     private HttpMethod method;
 
