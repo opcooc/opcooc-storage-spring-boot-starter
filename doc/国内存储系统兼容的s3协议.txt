@@ -1,4 +1,0 @@
-阿里云oss:https://help.aliyun.com/document_detail/64919.html
-minio:http://docs.minio.org.cn/docs/master/how-to-use-aws-sdk-for-java-with-minio-server
-腾讯云cos:https://cloud.tencent.com/document/product/436/37421
-七牛云kodo:https://developer.qiniu.com/kodo/manual/4086/aws-s3-compatible
