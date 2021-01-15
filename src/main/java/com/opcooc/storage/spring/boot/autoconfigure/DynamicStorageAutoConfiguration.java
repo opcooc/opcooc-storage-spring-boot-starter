@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2029 organization opcooc
+ * Copyright © 2020-2030 organization opcooc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.opcooc.storage.spring.boot.autoconfigure;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -40,32 +41,23 @@ import com.opcooc.storage.support.ClientDriverHealthIndicator;
 import com.opcooc.storage.support.ObjectConverter;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 /**
  * 自动IOC注入类
  *
  * @author shenqicheng
- * @since 1.2.0
+ * @since 1.0.0
  */
 @Slf4j
 @Configuration
+@AllArgsConstructor
 @EnableConfigurationProperties(DynamicStorageProperties.class)
 @ConditionalOnProperty(prefix = DynamicStorageProperties.PREFIX, name = DynamicStorageProperties.ENABLED, havingValue = "true", matchIfMissing = true)
 public class DynamicStorageAutoConfiguration {
 
     private final DynamicStorageProperties properties;
-
-    @SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection"})
-    @Autowired(required = false)
-    private BucketConverter bucketConverter;
-
-    @SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection"})
-    @Autowired(required = false)
-    private ObjectConverter objectConverter;
-
-    public DynamicStorageAutoConfiguration(DynamicStorageProperties properties) {
-        this.properties = properties;
-    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -98,7 +90,9 @@ public class DynamicStorageAutoConfiguration {
     }
 
     @Bean
-    public StorageClient storageClient(ClientDriver clientDriver) {
+    public StorageClient storageClient(@NonNull ClientDriver clientDriver,
+                                       @Nullable @Autowired(required = false) BucketConverter bucketConverter,
+                                       @Nullable @Autowired(required = false) ObjectConverter objectConverter) {
         StorageClient client = new StorageClient(clientDriver);
         if (bucketConverter != null) {
             client.setBucketConverter(bucketConverter);
@@ -106,7 +100,7 @@ public class DynamicStorageAutoConfiguration {
         if (objectConverter != null) {
             client.setObjectConverter(objectConverter);
         }
-        return new StorageClient(clientDriver);
+        return client;
     }
 
     @Bean

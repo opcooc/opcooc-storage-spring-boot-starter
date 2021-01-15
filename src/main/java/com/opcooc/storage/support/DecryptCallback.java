@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2029 organization opcooc
+ * Copyright © 2020-2030 organization opcooc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
  * 解密信息转换器
  *
  * @author shenqicheng
- * @since 1.2.3
+ * @since 1.0.0
  */
 @FunctionalInterface
 public interface DecryptCallback {

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020-2029 organization opcooc
+ * Copyright © 2020-2030 organization opcooc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,11 +65,18 @@ public class CryptoUtils {
     }
 
     public static void main(String[] args) throws Exception {
-        String password = args[0];
+        String endPoint = args[0];
+        String accessKey = args[1];
+        String secretKey = args[2];
         String[] arr = genKeyPair(512);
         System.out.println("privateKey:" + arr[0]);
         System.out.println("publicKey:" + arr[1]);
-        System.out.println("password:" + encrypt(arr[0], password));
+//        System.out.println("endPoint:" + encrypt(arr[0], endPoint));
+//        System.out.println("accessKey:" + encrypt(arr[0], accessKey));
+//        System.out.println("secretKey:" + encrypt(arr[0], secretKey));
+        System.out.println("endPoint:" + encrypt(arr[0], endPoint));
+        System.out.println("accessKey:" + encrypt(arr[0], accessKey));
+        System.out.println("secretKey:" + encrypt(arr[0], secretKey));
     }
 
     public static String decrypt(String publicKeyText, String cipherText) throws Exception {

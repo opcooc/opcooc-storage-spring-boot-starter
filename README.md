@@ -69,12 +69,12 @@
             <dependency>
               <groupId>com.opcooc</groupId>
               <artifactId>opcooc-storage-spring-boot-starter</artifactId>
-              <version>1.0.0</version>
+              <version>1.0.1</version>
             </dependency>
         ```
     -   Gradle
         ```groovy
-        compile group: 'com.opcooc', name: 'opcooc-storage-spring-boot-starter', version: '1.0.0'
+        implementation 'com.opcooc:opcooc-storage-spring-boot-starter:1.0.1'
         ```
 
 ## 添加配置，在 `application.yml` 中添加配置信息
@@ -271,7 +271,7 @@
    
 -------------------------------------------------------------------------------
 
-> 该展示只是 opcooc-storage-spring-boot-starter 功能的一小部分。如果您想了解更多信息，请参阅项目demo [documentation](https://github.com/opcooc/opcooc-storage-spring-boot-starter/wiki).
+> 该展示只是 opcooc-storage-spring-boot-starter 功能的一小部分。如果您想了解更多信息，请参阅项目[demo项目](https://github.com/opcooc/opcooc-storage-spring-boot-starter-example) 或 wiki: [documentation](https://github.com/opcooc/opcooc-storage-spring-boot-starter/wiki).
 
 ## 友情链接
 
