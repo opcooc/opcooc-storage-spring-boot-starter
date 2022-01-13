@@ -69,6 +69,7 @@ jar {
             attributes 'Build-Timestamp': LocalDateTime.now().format("yyyy-MM-dd HH:mm:ss")
         }
     }
+    archiveClassifier = ''
 }
 
 license {
