@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.amazonaws.services.s3.model.AccessControlList;
@@ -78,7 +79,7 @@ public class StorageClient implements InitializingBean, Client {
     private final ClientDriver clientDriver;
 
     @Setter
-    private BucketConverter bucketConverter = (config, bucket) -> StringUtils.isEmpty(bucket.getBucketName()) && config != null
+    private BucketConverter bucketConverter = (config, bucket) -> ObjectUtils.isEmpty(bucket.getBucketName()) && config != null
             ? config.getDefaultBucket() : bucket.getBucketName();
     @Setter
     private ObjectConverter objectConverter = (config, object) -> object.getObjectName();
@@ -109,7 +110,7 @@ public class StorageClient implements InitializingBean, Client {
 
         log.debug("opcooc-storage - determine bucket name after [{}]", bucketName);
 
-        if (StringUtils.isEmpty(bucketName)) {
+        if (ObjectUtils.isEmpty(bucketName)) {
             throw new StorageException("opcooc-storage - bucketName cannot be empty");
         }
 

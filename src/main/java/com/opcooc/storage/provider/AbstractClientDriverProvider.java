@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.opcooc.storage.drivers.ClientDriver;
@@ -43,7 +44,7 @@ public abstract class AbstractClientDriverProvider implements ClientDriverProvid
             ClientDriverProperty clientDriverProperty = item.getValue();
             String driverName = clientDriverProperty.getDriverName();
             ClientDriver driver = clientDriverHolder.getClientDriver(item.getValue());
-            if (StringUtils.isEmpty(driverName)) {
+            if (ObjectUtils.isEmpty(driverName)) {
                 driverName = item.getKey();
             }
             if (driver != null) {

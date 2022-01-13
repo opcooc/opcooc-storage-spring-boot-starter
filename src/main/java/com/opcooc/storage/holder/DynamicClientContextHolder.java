@@ -19,6 +19,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import org.springframework.core.NamedThreadLocal;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -75,7 +76,7 @@ public final class DynamicClientContextHolder {
      * @param sc 存储配置名称
      */
     public static void push(String sc) {
-        LOOKUP_KEY_HOLDER.get().push(StringUtils.isEmpty(sc) ? "" : sc);
+        LOOKUP_KEY_HOLDER.get().push(ObjectUtils.isEmpty(sc) ? "" : sc);
     }
 
     /**

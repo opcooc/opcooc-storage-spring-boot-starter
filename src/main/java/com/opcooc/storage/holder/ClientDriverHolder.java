@@ -15,6 +15,7 @@
  */
 package com.opcooc.storage.holder;
 
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.opcooc.storage.drivers.ClientDriver;
@@ -39,7 +40,7 @@ public class ClientDriverHolder {
 
     public ClientDriver getClientDriver(ClientDriverProperty property) {
         //当不存在PublicKey时添加默认PublicKey
-        if (StringUtils.isEmpty(property.getPublicKey())) {
+        if (ObjectUtils.isEmpty(property.getPublicKey())) {
             property.setPublicKey(properties.getPublicKey());
         }
 

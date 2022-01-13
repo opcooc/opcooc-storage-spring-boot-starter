@@ -25,6 +25,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.opcooc.storage.event.ClientDriverEvent;
@@ -81,7 +82,7 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
      * @return 驱动
      */
     public ClientDriver getClientDriver(String driverName) {
-        if (StringUtils.isEmpty(driverName)) {
+        if (ObjectUtils.isEmpty(driverName)) {
             return determinePrimaryClientDriver();
         } else if (clientDriverMap.containsKey(driverName)) {
             log.debug("opcooc-storage - switch to the client driver named [{}]", driverName);
