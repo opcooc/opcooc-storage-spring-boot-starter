@@ -37,7 +37,6 @@ import com.opcooc.storage.processor.OsSessionProcessor;
 import com.opcooc.storage.processor.OsSpelExpressionProcessor;
 import com.opcooc.storage.provider.YmlClientDriverProvider;
 import com.opcooc.storage.support.BucketConverter;
-import com.opcooc.storage.support.ClientDriverHealthIndicator;
 import com.opcooc.storage.support.ObjectConverter;
 
 import lombok.extern.slf4j.Slf4j;
@@ -71,13 +70,6 @@ public class DynamicStorageAutoConfiguration {
         ClientDriverHolder clientDriverHolder = new ClientDriverHolder();
         clientDriverHolder.setProperties(properties);
         return clientDriverHolder;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = DynamicStorageProperties.PREFIX, name = DynamicStorageProperties.HEALTH, havingValue = "true")
-    public ClientDriverHealthIndicator clientDriverHealthIndicator(ClientDriver clientDriver) {
-        return new ClientDriverHealthIndicator(clientDriver);
     }
 
     @Bean

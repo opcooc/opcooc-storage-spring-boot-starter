@@ -38,7 +38,6 @@ import lombok.Setter;
 public class DynamicStorageProperties {
 
     public static final String PREFIX = "spring.storage.dynamic";
-    public static final String HEALTH = "health";
     public static final String ENABLED = "enabled";
 
     /**

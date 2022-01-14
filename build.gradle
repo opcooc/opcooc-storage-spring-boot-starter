@@ -101,7 +101,6 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-aop"
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
 
     checkstyle "com.thomasjensen.checkstyle.addons:checkstyle-addons:6.0.1"
     implementation "org.slf4j:slf4j-api:1.7.32"
