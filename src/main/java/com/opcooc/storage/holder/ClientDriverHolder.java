@@ -15,9 +15,6 @@
  */
 package com.opcooc.storage.holder;
 
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
-
 import com.opcooc.storage.drivers.ClientDriver;
 import com.opcooc.storage.drivers.DefaultS3ClientDriver;
 import com.opcooc.storage.enums.DefaultDriverType;
@@ -39,10 +36,6 @@ public class ClientDriverHolder {
     private DynamicStorageProperties properties;
 
     public ClientDriver getClientDriver(ClientDriverProperty property) {
-        //当不存在PublicKey时添加默认PublicKey
-        if (ObjectUtils.isEmpty(property.getPublicKey())) {
-            property.setPublicKey(properties.getPublicKey());
-        }
 
         if (property.getCustomizeClientDriver() != null) {
             //实例化自定义 ClientDriver

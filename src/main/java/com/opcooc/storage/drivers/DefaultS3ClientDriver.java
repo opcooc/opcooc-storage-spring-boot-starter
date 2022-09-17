@@ -61,10 +61,10 @@ public class DefaultS3ClientDriver implements ClientDriver {
 
     private AmazonS3 init(ClientDriverProperty configuration) {
 
-        AWSCredentials credentials = new BasicAWSCredentials(configuration.getAccessKey(), configuration.getSecretKey());
+        AWSCredentials credentials = new BasicAWSCredentials(configuration.getUsername(), configuration.getPassword());
 
         AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder
-                .EndpointConfiguration(configuration.getEndPoint(), configuration.getRegion());
+                .EndpointConfiguration(configuration.getEndpoint(), configuration.getRegion());
 
         AmazonS3 s3 = AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))

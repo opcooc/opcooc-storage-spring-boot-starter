@@ -22,8 +22,6 @@ import org.springframework.util.StringUtils;
 import com.opcooc.storage.drivers.ClientDriver;
 import com.opcooc.storage.enums.DefaultDriverType;
 import com.opcooc.storage.exception.StorageException;
-import com.opcooc.storage.support.DecryptCallback;
-import com.opcooc.storage.support.DefaultDecryptCallback;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -60,17 +58,17 @@ public class ClientDriverProperty {
     /**
      * 访问域名
      */
-    private String endPoint;
+    private String endpoint;
 
     /**
      * 访问密钥
      */
-    private String accessKey;
+    private String username;
 
     /**
      * 密钥
      */
-    private String secretKey;
+    private String password;
 
     /**
      * 路径样式(默认为true)
@@ -92,64 +90,16 @@ public class ClientDriverProperty {
     private Boolean autoCreateBucket = false;
 
     /**
-     * 解密回调(默认为 DefaultDecryptCallback )
-     * 可通过 customizeDecryptCallback 覆盖
-     */
-    private DecryptCallback decryptCallback = new DefaultDecryptCallback();
-
-    /**
-     * 自定义解密回调clazz
-     */
-    private Class<? extends DecryptCallback> customizeDecryptCallback;
-
-    /**
      * 自定义客户端clazz
      */
     private Class<? extends ClientDriver> customizeClientDriver;
-
-    /**
-     * 解密公匙(如果未设置默认使用全局的)
-     */
-    private String publicKey;
-
-    public String getEndPoint() {
-        return decrypt(endPoint);
-    }
-
-    public String getAccessKey() {
-        return decrypt(accessKey);
-    }
-
-    public String getSecretKey() {
-        return decrypt(secretKey);
-    }
-
-    public void setCustomizeDecryptCallback(Class<? extends DecryptCallback> clazz) {
-        if (clazz != null) {
-            try {
-                this.decryptCallback = clazz.getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-                log.error("load decryptCallback error : " + clazz.getName() + ", " + e.getLocalizedMessage());
-            }
-        }
-    }
-
-    /**
-     * 字符串解密
-     */
-    private String decrypt(String cipherText) {
-        if (StringUtils.hasText(cipherText)) {
-            return decryptCallback.decrypt(this, cipherText);
-        }
-        return cipherText;
-    }
 
     /**
      * 客户端驱动参数预处理
      * @return 是否检查通过
      */
     public boolean preCheck() {
-        return StringUtils.hasText(accessKey) && StringUtils.hasText(secretKey) && StringUtils.hasText(endPoint);
+        return StringUtils.hasText(username) && StringUtils.hasText(password) && StringUtils.hasText(endpoint);
     }
 
     /**

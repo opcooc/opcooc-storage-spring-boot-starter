@@ -21,8 +21,6 @@ import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.Ordered;
 
-import com.opcooc.storage.toolkit.CryptoUtils;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -69,10 +67,5 @@ public class DynamicStorageProperties {
      * aop 切面是否只允许切 public 方法
      */
     private boolean allowedPublicOnly = true;
-
-    /**
-     * 全局默认publicKey
-     */
-    private String publicKey = CryptoUtils.DEFAULT_PUBLIC_KEY_STRING;
 
 }

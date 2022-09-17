@@ -92,56 +92,13 @@
                   driver-name: s3_minio #非必填, 客户端驱动名称唯一标识 (默认为配置文件key名称)
                   type: S3 #默认驱动类型(默认为S3)
                   default-bucket: opcooc #默认主目录(需要保证唯一)
-                  end-point: http://xxx.com #访问域名
-                  access-key: xxx #访问密钥
-                  secret-key: xxx #密钥
+                  endpoint: http://xxx.com #访问域名
+                  username: xxx #账号
+                  password: xxx #密码
                   region: cn-north-1 #区域
                   first-path: first #第一目录层级(默认为空, 当存在时所有路径都以 [firstPath + objectName] 拼接 ** 需要自己实现ObjectConverter **)
                   path-style: true #路径样式(默认为true)
                   auto-create-bucket: true #是否自动创建目标bucket
-
-    ```
--   默认解密yaml配置。
-
-    ```yaml
-        spring:
-          storage:
-            dynamic:
-              primary: s3_minio #默认的客户端类型
-              strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
-              enabled: true #是否开启 opcooc-storage
-              driver:
-                s3_enc:
-                  driver-name: s3_minio_enc
-                  default-bucket: opcooc
-                  end-point: ENC(xxx) #默认解密方式
-                  access-key: ENC(xxx)
-                  secret-key: ENC(xxx)
-                  region: cn-north-1
-                  public-key: xxx
-                  auto-create-bucket: true
-
-    ```
--   自定义解密yaml配置。
-
-    ```yaml
-        spring:
-          storage:
-            dynamic:
-              primary: s3_minio #默认的客户端类型
-              strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
-              enabled: true #是否开启 opcooc-storage
-              driver:
-                s3_callback:
-                  driver-name: s3_callback
-                  default-bucket: opcooc
-                  end-point: http://xxx.com
-                  access-key: xxx
-                  secret-key: xxx
-                  region: cn-north-1
-                  public-key: xxx #解密公匙(如果未设置默认使用全局的)
-                  customize-decrypt-callback: com.example.demo.config.DemoDecryptCallback #自定义解密回调clazz
-                  auto-create-bucket: true
 
     ```
 -   拓展自定义客户端yaml配置。
@@ -157,9 +114,9 @@
                 s3_customize_client_driver:
                   driver-name: s3_customize_client_driver
                   default-bucket: opcooc
-                  end-point: http://xxx.com
-                  access-key: xxx
-                  secret-key: xxx
+                  endpoint: http://xxx.com
+                  username: xxx
+                  password: xxx
                   region: cn-north-1
                   customize-client-driver: com.example.demo.config.DemoClientDriver #自定义客户端clazz
                   auto-create-bucket: true
@@ -177,26 +134,26 @@
                 s3_oss:
                   driver-name: s3_oss
                   default-bucket: opcooc
-                  end-point: http://oss-cn-shanghai.aliyuncs.com
-                  access-key: xxx
-                  secret-key: xxx
+                  endpoint: http://oss-cn-shanghai.aliyuncs.com
+                  username: xxx
+                  password: xxx
                   path-style: false
                   region: cn-north-1
                   auto-create-bucket: true
                 s3_cos:
                   driver-name: s3_cos
                   default-bucket: opcooc
-                  end-point: https://bucketname.cos.ap-shanghai.myqcloud.com
-                  access-key: xxx
-                  secret-key: xxx
+                  endpoint: https://bucketname.cos.ap-shanghai.myqcloud.com
+                  username: xxx
+                  password: xxx
                   region: cn-north-1
                   auto-create-bucket: true
                 s3_kodo:
                   driver-name: s3_kodo
                   default-bucket: opcooc
-                  end-point: http://s3-cn-south-1.qiniucs.com
-                  access-key: xxx
-                  secret-key: xxx
+                  endpoint: http://s3-cn-south-1.qiniucs.com
+                  username: xxx
+                  password: xxx
                   region: cn-north-1
                   auto-create-bucket: true
     ```
@@ -239,7 +196,6 @@
    |Bucket|主目录(存储空间)|
    |Endpoint|访问域名|
    |Region|地域或者数据中心|
-   |AccessKey|AccessKeyId和AccessKeySecret的统称，访问密钥|
    |Object Meta|文件元信息。用来描述文件信息，例如长度，类型等|
    |Data|文件数据|
    |Key|文件名|
