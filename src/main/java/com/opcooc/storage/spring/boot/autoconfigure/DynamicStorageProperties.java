@@ -56,11 +56,6 @@ public class DynamicStorageProperties {
     private Boolean strict = false;
 
     /**
-     * 是否使用 spring actuator 监控检查，默认不检查
-     */
-    private boolean health = false;
-
-    /**
      * 默认s3配置
      */
     private Map<String, ClientDriverProperty> driver = new HashMap<>();

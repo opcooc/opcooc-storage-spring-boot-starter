@@ -87,7 +87,6 @@
               primary: s3_minio #默认的客户端类型
               strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
               enabled: true #是否开启 opcooc-storage
-              health: true #健康检查
               driver:
                 s3_minio: #配置文件key名称
                   driver-name: s3_minio #非必填, 客户端驱动名称唯一标识 (默认为配置文件key名称)
@@ -111,7 +110,6 @@
               primary: s3_minio #默认的客户端类型
               strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
               enabled: true #是否开启 opcooc-storage
-              health: true #健康检查
               driver:
                 s3_enc:
                   driver-name: s3_minio_enc
@@ -133,7 +131,6 @@
               primary: s3_minio #默认的客户端类型
               strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
               enabled: true #是否开启 opcooc-storage
-              health: true #健康检查
               driver:
                 s3_callback:
                   driver-name: s3_callback
@@ -156,7 +153,6 @@
               primary: s3_minio #默认的客户端类型
               strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
               enabled: true #是否开启 opcooc-storage
-              health: true #健康检查
               driver:
                 s3_customize_client_driver:
                   driver-name: s3_customize_client_driver
@@ -177,7 +173,6 @@
               primary: s3_minio #默认的客户端类型
               strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
               enabled: true #是否开启 opcooc-storage
-              health: true #健康检查
               driver:
                 s3_oss:
                   driver-name: s3_oss
@@ -204,25 +199,6 @@
                   secret-key: xxx
                   region: cn-north-1
                   auto-create-bucket: true
-    ```
--   健康检查yaml配置。
-
-    ```yaml
-    spring:
-      storage:
-        dynamic:
-          health: true
-    
-    #健康检查
-    management:
-      endpoints:
-        web:
-          exposure:
-            include: "*"
-      endpoint:
-        health:
-          show-details: always
-
     ```
     
 -   使用 @OS 切换客户端驱动。
