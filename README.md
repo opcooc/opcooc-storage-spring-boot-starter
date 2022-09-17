@@ -89,14 +89,13 @@
               enabled: true #是否开启 opcooc-storage
               driver:
                 s3_minio: #配置文件key名称
-                  driver-name: s3_minio #非必填, 客户端驱动名称唯一标识 (默认为配置文件key名称)
+                  driver: s3_minio #非必填, 客户端驱动名称唯一标识 (默认为配置文件key名称)
                   type: S3 #默认驱动类型(默认为S3)
                   default-bucket: opcooc #默认主目录(需要保证唯一)
                   endpoint: http://xxx.com #访问域名
                   username: xxx #账号
                   password: xxx #密码
                   region: cn-north-1 #区域
-                  first-path: first #第一目录层级(默认为空, 当存在时所有路径都以 [firstPath + objectName] 拼接 ** 需要自己实现ObjectConverter **)
                   path-style: true #路径样式(默认为true)
                   auto-create-bucket: true #是否自动创建目标bucket
 
@@ -112,13 +111,13 @@
               enabled: true #是否开启 opcooc-storage
               driver:
                 s3_customize_client_driver:
-                  driver-name: s3_customize_client_driver
+                  driver: s3_customize_client_driver
                   default-bucket: opcooc
                   endpoint: http://xxx.com
                   username: xxx
                   password: xxx
                   region: cn-north-1
-                  customize-client-driver: com.example.demo.config.DemoClientDriver #自定义客户端clazz
+                  custom-client: com.example.demo.config.DemoClientDriver #自定义客户端clazz
                   auto-create-bucket: true
 
     ```
@@ -132,7 +131,7 @@
               enabled: true #是否开启 opcooc-storage
               driver:
                 s3_oss:
-                  driver-name: s3_oss
+                  driver: s3_oss
                   default-bucket: opcooc
                   endpoint: http://oss-cn-shanghai.aliyuncs.com
                   username: xxx
@@ -141,7 +140,7 @@
                   region: cn-north-1
                   auto-create-bucket: true
                 s3_cos:
-                  driver-name: s3_cos
+                  driver: s3_cos
                   default-bucket: opcooc
                   endpoint: https://bucketname.cos.ap-shanghai.myqcloud.com
                   username: xxx
@@ -149,7 +148,7 @@
                   region: cn-north-1
                   auto-create-bucket: true
                 s3_kodo:
-                  driver-name: s3_kodo
+                  driver: s3_kodo
                   default-bucket: opcooc
                   endpoint: http://s3-cn-south-1.qiniucs.com
                   username: xxx

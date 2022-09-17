@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,7 +28,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.amazonaws.HttpMethod;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.AccessControlList;
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.BucketPolicy;
@@ -71,6 +77,7 @@ import com.opcooc.storage.args.UploadObjectArgs;
 import com.opcooc.storage.args.UploadUrlArgs;
 import com.opcooc.storage.exception.StorageException;
 import com.opcooc.storage.model.FileBasicInfo;
+import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
 import com.opcooc.storage.toolkit.ContentTypeUtils;
 import com.opcooc.storage.toolkit.HttpUtils;
 import com.opcooc.storage.toolkit.StorageUtil;
@@ -82,15 +89,33 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0.0
  */
 @Slf4j
-public class DefaultS3Client implements Client {
+public class S3Client implements Client {
 
     /**
      * client
      */
     private final AmazonS3 client;
 
-    public DefaultS3Client(AmazonS3 client) {
-        this.client = client;
+    /**
+     * configuration
+     */
+    private final ClientDriverProperty configuration;
+
+    public S3Client(ClientDriverProperty configuration) {
+        AWSCredentials credentials = new BasicAWSCredentials(configuration.getUsername(), configuration.getPassword());
+
+        AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder
+                .EndpointConfiguration(configuration.getEndpoint(), configuration.getRegion());
+
+        AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withPathStyleAccessEnabled(configuration.getPathStyle())
+                .withEndpointConfiguration(endpointConfiguration)
+                .build();
+
+        log.debug("opcooc-storage - init client driver [{}] success", configuration.getDriver());
+        this.configuration = configuration;
+        this.client = s3;
     }
 
     @Override
@@ -395,5 +420,10 @@ public class DefaultS3Client implements Client {
         } catch (Exception e) {
             throw new StorageException(e);
         }
+    }
+
+    @Override
+    public void close() throws IOException {
+        client.shutdown();
     }
 }

@@ -15,11 +15,9 @@
  */
 package com.opcooc.storage.spring.boot.autoconfigure;
 
-import java.util.function.Supplier;
-
 import org.springframework.util.StringUtils;
 
-import com.opcooc.storage.drivers.ClientDriver;
+import com.opcooc.storage.client.Client;
 import com.opcooc.storage.enums.DefaultDriverType;
 import com.opcooc.storage.exception.StorageException;
 
@@ -43,10 +41,10 @@ public class ClientDriverProperty {
     /**
      * 客户端驱动名称唯一标识 (默认为配置文件key名称)
      */
-    private String driverName;
+    private String driver;
 
     /**
-     * 默认驱动类型
+     * 默认驱动类型 只实现了 s3
      */
     private DefaultDriverType type = DefaultDriverType.S3;
 
@@ -80,11 +78,6 @@ public class ClientDriverProperty {
     private String region;
 
     /**
-     * 第一目录层级(默认为空, 当存在时所有路径都以 [firstPath + objectName] 拼接 ** 需要自己实现ObjectConverter **)
-     */
-    private String firstPath;
-
-    /**
      * 是否自动创建目标bucket
      */
     private Boolean autoCreateBucket = false;
@@ -92,34 +85,14 @@ public class ClientDriverProperty {
     /**
      * 自定义客户端clazz
      */
-    private Class<? extends ClientDriver> customizeClientDriver;
-
-    /**
-     * 客户端驱动参数预处理
-     * @return 是否检查通过
-     */
-    public boolean preCheck() {
-        return StringUtils.hasText(username) && StringUtils.hasText(password) && StringUtils.hasText(endpoint);
-    }
+    private Class<? extends Client> customClient;
 
     /**
      * 客户端驱动参数预处理(抛出内置异常)
      */
-    public void preCheckThrow() throws StorageException {
-        if (!preCheck()) {
-            throw new StorageException("opcooc-storage - property pre check error, params incomplete.");
-        }
-    }
-
-    /**
-     * 客户端驱动参数预处理(抛出自定义异常)
-     * @param exceptionSupplier 自定义异常
-     * @param <E> 自定义异常
-     * @throws E 自定义异常
-     */
-    public <E extends Throwable> void preCheckThrow(Supplier<? extends E> exceptionSupplier) throws E {
-        if (!preCheck()) {
-            throw exceptionSupplier.get();
+    public void preCheck() throws StorageException {
+        if (StringUtils.hasText(username) || StringUtils.hasText(password) || StringUtils.hasText(endpoint)) {
+            throw new StorageException("property pre check error, params incomplete.");
         }
     }
 }

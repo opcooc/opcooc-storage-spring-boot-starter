@@ -67,9 +67,7 @@ public class DynamicStorageAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public ClientDriverHolder clientDriverHolder() {
-        ClientDriverHolder clientDriverHolder = new ClientDriverHolder();
-        clientDriverHolder.setProperties(properties);
-        return clientDriverHolder;
+        return new ClientDriverHolder();
     }
 
     @Bean

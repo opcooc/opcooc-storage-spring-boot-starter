@@ -15,6 +15,7 @@
  */
 package com.opcooc.storage.client;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
@@ -52,7 +53,7 @@ import com.opcooc.storage.toolkit.HttpUtils;
  * @author shenqicheng
  * @since 1.0.0
  */
-public interface Client {
+public interface Client extends Closeable {
 
     /**
      * 创建文件夹

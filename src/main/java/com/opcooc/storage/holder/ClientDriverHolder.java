@@ -15,11 +15,12 @@
  */
 package com.opcooc.storage.holder;
 
+import com.opcooc.storage.client.Client;
+import com.opcooc.storage.client.S3Client;
 import com.opcooc.storage.drivers.ClientDriver;
-import com.opcooc.storage.drivers.DefaultS3ClientDriver;
+import com.opcooc.storage.drivers.DefaultClientDriver;
 import com.opcooc.storage.enums.DefaultDriverType;
 import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
-import com.opcooc.storage.spring.boot.autoconfigure.DynamicStorageProperties;
 import com.opcooc.storage.toolkit.StorageUtil;
 
 import lombok.Setter;
@@ -33,11 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 public class ClientDriverHolder {
 
-    private DynamicStorageProperties properties;
-
     public ClientDriver getClientDriver(ClientDriverProperty property) {
 
-        if (property.getCustomizeClientDriver() != null) {
+        if (property.getCustomClient() != null) {
             //实例化自定义 ClientDriver
             return getCustomizeClientDriver(property);
         }
@@ -56,18 +55,19 @@ public class ClientDriverHolder {
     }
 
     public ClientDriver getCustomizeClientDriver(ClientDriverProperty property) {
-        ClientDriver driver = StorageUtil.instantiateClass(property.getCustomizeClientDriver(), property);
-        log.info("opcooc-storage - extend customize client driver instantiate success.");
+        // 校验配置合法性
+        property.preCheck();
+        Client client = StorageUtil.instantiateClass(property.getCustomClient(), property);
+        ClientDriver driver = new DefaultClientDriver(property, client);
+        log.info("opcooc-storage - default s3 client driver instantiate success.");
         return driver;
     }
 
     public ClientDriver getDefaultS3ClientDriver(ClientDriverProperty property) {
-        //客户端驱动参数预处理
-        if (!property.preCheck()) {
-            log.error("opcooc-storage - default s3 client driver property pre check error, params incomplete.");
-            return null;
-        }
-        ClientDriver driver = new DefaultS3ClientDriver(property);
+        // 校验配置合法性
+        property.preCheck();
+        S3Client client = new S3Client(property);
+        ClientDriver driver = new DefaultClientDriver(property, client);
         log.info("opcooc-storage - default s3 client driver instantiate success.");
         return driver;
     }

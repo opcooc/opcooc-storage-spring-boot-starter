@@ -16,12 +16,12 @@
 package com.opcooc.storage;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import com.amazonaws.services.s3.model.AccessControlList;
 import com.amazonaws.services.s3.model.BucketPolicy;
@@ -314,5 +314,10 @@ public class StorageClient implements InitializingBean, Client {
         if (objectConverter == null) {
             throw new StorageException("opcooc-storage - objectConverter must not be null");
         }
+    }
+
+    @Override
+    public void close() throws IOException {
+
     }
 }

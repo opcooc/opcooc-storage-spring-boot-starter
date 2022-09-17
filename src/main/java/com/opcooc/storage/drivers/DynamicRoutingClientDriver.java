@@ -21,7 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -42,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0.0
  */
 @Slf4j
-public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver implements InitializingBean, DisposableBean, ApplicationContextAware {
+public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver implements InitializingBean, ApplicationContextAware {
 
     /**
      * 所有客户端
@@ -138,11 +137,6 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
     }
 
     @Override
-    public void destroy() throws Exception {
-        this.close();
-    }
-
-    @Override
     public void afterPropertiesSet() throws Exception {
         Map<String, ClientDriverProvider> validateCodeGeneratorMap = applicationContext.getBeansOfType(ClientDriverProvider.class);
         Collection<ClientDriverProvider> values = validateCodeGeneratorMap.values();
@@ -164,6 +158,7 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
     public void close() throws IOException {
         log.info("opcooc-storage - start closing ....");
         for (Map.Entry<String, ClientDriver> item : clientDriverMap.entrySet()) {
+            log.info("opcooc-storage - closed {}", item.getValue().getConfiguration().getDriver());
             item.getValue().close();
         }
         log.info("opcooc-storage - all closed success,bye");
