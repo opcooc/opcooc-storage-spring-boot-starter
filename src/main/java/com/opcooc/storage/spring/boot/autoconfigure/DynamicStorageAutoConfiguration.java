@@ -15,15 +15,16 @@
  */
 package com.opcooc.storage.spring.boot.autoconfigure;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import com.opcooc.storage.StorageClient;
 import com.opcooc.storage.aop.DynamicClientAnnotationAdvisor;
@@ -39,9 +40,8 @@ import com.opcooc.storage.provider.YmlClientDriverProvider;
 import com.opcooc.storage.support.BucketConverter;
 import com.opcooc.storage.support.ObjectConverter;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 /**
  * 自动IOC注入类
@@ -50,8 +50,8 @@ import org.springframework.lang.Nullable;
  * @since 1.0.0
  */
 @Slf4j
-@Configuration
-@AllArgsConstructor
+@AutoConfiguration
+@RequiredArgsConstructor
 @EnableConfigurationProperties(DynamicStorageProperties.class)
 @ConditionalOnProperty(prefix = DynamicStorageProperties.PREFIX, name = DynamicStorageProperties.ENABLED, havingValue = "true", matchIfMissing = true)
 public class DynamicStorageAutoConfiguration {

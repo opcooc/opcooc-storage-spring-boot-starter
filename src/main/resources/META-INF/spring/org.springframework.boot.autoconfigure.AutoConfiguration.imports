@@ -1,2 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.opcooc.storage.spring.boot.autoconfigure.DynamicStorageAutoConfiguration

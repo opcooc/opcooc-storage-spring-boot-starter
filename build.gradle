@@ -10,10 +10,10 @@ buildscript {
 }
 
 plugins {
-    id "io.freefair.lombok" version "6.1.0"
-    id "org.springframework.boot" version "2.6.2"
+    id "io.freefair.lombok" version "6.5.1"
+    id "org.springframework.boot" version "2.7.3"
     id "com.github.hierynomus.license" version "0.16.1"
-    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "io.spring.dependency-management" version "1.0.13.RELEASE"
 }
 
 allprojects {
@@ -24,7 +24,7 @@ allprojects {
 description = "opcooc-storage-spring-boot-starter - 简单对象存储客户端驱动程序"
 
 apply plugin: 'signing'
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: "io.freefair.lombok"
@@ -34,16 +34,16 @@ apply plugin: "io.spring.dependency-management"
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-checkstyle {
-    configFile = file("style/checkstyle.xml") //指定checkstyle配置文件
-    toolVersion = "8.37" //指定checkstyle工具的版本，部分style规则有版本要求
-
-    //有警告时是否允许构建继续进行.
-    ignoreFailures = false
-
-    //是否在控制台上显示违反规则.
-    showViolations = true
-}
+//checkstyle {
+//    configFile = file("style/checkstyle.xml") //指定checkstyle配置文件
+//    toolVersion = "8.37" //指定checkstyle工具的版本，部分style规则有版本要求
+//
+//    //有警告时是否允许构建继续进行.
+//    ignoreFailures = false
+//
+//    //是否在控制台上显示违反规则.
+//    showViolations = true
+//}
 
 tasks.withType(JavaCompile) {
     options.encoding = project.encoding
@@ -62,7 +62,7 @@ jar {
             attributes 'Implementation-Title': archiveBaseName
             attributes 'Implementation-Version': archiveVersion
             attributes 'Built-Gradle': gradle.gradleVersion
-            attributes 'Bundle-DocURL': 'http://www.opcooc.com/'
+            attributes 'Bundle-DocURL': 'https://github.com/opcooc/opcooc-storage-spring-boot-starter'
             attributes 'Build-OS': System.getProperty("os.name")
             attributes 'Built-By': System.getProperty("user.name")
             attributes 'Build-Jdk': System.getProperty("java.version")
@@ -90,7 +90,7 @@ repositories {
 
 dependencies {
 
-    api "com.amazonaws:aws-java-sdk-s3:1.12.138"
+    api 'com.amazonaws:aws-java-sdk-s3:1.12.303'
     api "org.springframework.boot:spring-boot-autoconfigure"
 
     annotationProcessor "org.springframework.boot:spring-boot-autoconfigure-processor"
@@ -102,8 +102,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-aop"
     implementation "org.springframework.boot:spring-boot-starter-web"
 
-    checkstyle "com.thomasjensen.checkstyle.addons:checkstyle-addons:6.0.1"
-    implementation "org.slf4j:slf4j-api:1.7.32"
+//    checkstyle 'com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1'
+    implementation 'org.slf4j:slf4j-api:2.0.1'
 }
 
 task sourcesJar(type: Jar) {
@@ -119,7 +119,7 @@ javadoc {
             author true
             version true
             failOnError false
-            links "http://docs.oracle.com/javase/8/docs/api"
+            links "https://docs.oracle.com/javase/17/docs/api"
         }
     }
 }
