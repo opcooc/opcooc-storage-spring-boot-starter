@@ -117,7 +117,7 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
         if (!StringUtils.hasText(driver)) {
             throw new StorageException("remove parameter could not be empty");
         }
-        if (primary.equals(driver)) {
+        if (Boolean.TRUE.equals(strict) && primary.equals(driver)) {
             throw new StorageException("could not remove primary client driver");
         }
         if (clientDriverMap.containsKey(driver)) {
@@ -146,7 +146,7 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
             }
         }
         // 检测默认驱动是否设置
-        if (clientDriverMap.containsKey(primary)) {
+        if (Boolean.FALSE.equals(strict) || clientDriverMap.containsKey(primary)) {
             log.info("opcooc-storage - initial loaded [{}] client driver,primary client driver named [{}]", clientDriverMap.size(), primary);
         } else {
             throw new StorageException("please check the setting of primary");
