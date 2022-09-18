@@ -47,15 +47,13 @@
 ## 特性
 
 1. 支持 **多客户端动态切换** (使用内置的spel动态参数，session，header获取客户端驱动, 还支持支持自定义获取哦)。
-2. 支持客户端敏感配置信息 **加密**  ENC(), DecryptCallback(自定义解密回调)。
-3. 支持 **自定义注解** ，需继承OS(支撑多客户端动态切换的关键)。
-4. 提供 **自定义客户端驱动来源** 方案。
-5. 提供项目启动后 **动态增加移除客户端驱动** 方案(增加移除后会有Event消息通知)。
-6. 支持  **多层客户端嵌套切换** 。（ServiceA >>>  ServiceB >>> ServiceC）。
-7. 提供基于Spring的客户端驱动 **健康检查**。
-8. 提供 **bucketConverter** bucketName 自定义转换器(有自动创建bucketName判断，会通过环境变量判断)。
-9. 提供 **objectConverter** objectName 自定义转换器。
-10. 支持 [aws s3](https://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html), 
+2. 支持 **自定义注解** ，需继承OS(支撑多客户端动态切换的关键)。
+3. 提供 **自定义客户端驱动来源** 方案。
+4. 提供项目启动后 **动态增加移除客户端驱动** 方案(增加移除后会有Event消息通知)。
+5. 支持  **多层客户端嵌套切换** 。（ServiceA >>>  ServiceB >>> ServiceC）。
+6. 提供 **bucketConverter** bucketName 自定义转换器(有自动创建bucketName判断，会通过环境变量判断)。
+7. 提供 **objectConverter** objectName 自定义转换器。
+8. 支持 [aws s3](https://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html), 
 [阿里云oss](https://help.aliyun.com/document_detail/64919.html), 
 [minio](http://docs.minio.org.cn/docs/master/how-to-use-aws-sdk-for-java-with-minio-server), 
 [腾讯云cos](https://cloud.tencent.com/document/product/436/37421), 
@@ -81,7 +79,7 @@
 -   基础yaml配置。
 
     ```yaml
-        spring:
+        opcooc:
           storage:
             dynamic:
               primary: s3_minio #默认的客户端类型
@@ -103,7 +101,7 @@
 -   拓展自定义客户端yaml配置。
 
     ```yaml
-        spring:
+        opcooc:
           storage:
             dynamic:
               primary: s3_minio #默认的客户端类型
@@ -123,7 +121,7 @@
     ```
 -   其他yaml配置(oss, cos, kodo)。
     ```yaml
-        spring:
+        opcooc:
           storage:
             dynamic:
               primary: s3_minio #默认的客户端类型
@@ -170,17 +168,15 @@
 
     ```java
         @RestController
-        @AllArgsConstructor
-        @RequestMapping("/api")
-        @Api("api测试")
         @OS("#tenantName")
+        @RequestMapping("/api")
+        @RequiredArgsConstructor
         public class ClientController {
         
             private final StorageClient client;
     
-            @GetMapping("/createFolder")
-            @ApiOperation("创建文件夹")
             @OS("#tenantName")
+            @PostMapping("/createFolder")
             public void createFolder(@RequestParam(defaultValue = "s3_minio") String tenantName, @RequestParam String folderName) {
                 client.createFolder(SetFolderArgs.builder().bucketName(BUCKET_NAME).folderName(folderName).build());
             }
