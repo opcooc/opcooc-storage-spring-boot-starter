@@ -31,7 +31,6 @@ import com.opcooc.storage.aop.DynamicClientAnnotationAdvisor;
 import com.opcooc.storage.aop.DynamicClientAnnotationInterceptor;
 import com.opcooc.storage.drivers.ClientDriver;
 import com.opcooc.storage.drivers.DynamicRoutingClientDriver;
-import com.opcooc.storage.holder.ClientDriverHolder;
 import com.opcooc.storage.processor.OsHeaderProcessor;
 import com.opcooc.storage.processor.OsProcessor;
 import com.opcooc.storage.processor.OsSessionProcessor;
@@ -41,7 +40,6 @@ import com.opcooc.storage.support.BucketConverter;
 import com.opcooc.storage.support.ObjectConverter;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 自动IOC注入类
@@ -61,12 +59,6 @@ public class DynamicStorageAutoConfiguration {
     @ConditionalOnMissingBean
     public YmlClientDriverProvider ymlClientDriverProvider() {
         return new YmlClientDriverProvider(properties.getDriver());
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ClientDriverHolder clientDriverHolder() {
-        return new ClientDriverHolder();
     }
 
     @Bean

@@ -18,7 +18,6 @@ package com.opcooc.storage.provider;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 
 import com.opcooc.storage.drivers.ClientDriver;
@@ -33,16 +32,13 @@ import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
  */
 public abstract class AbstractClientDriverProvider implements ClientDriverProvider {
 
-    @Autowired
-    private ClientDriverHolder clientDriverHolder;
-
     protected Map<String, ClientDriver> createClientDriverMap(Map<String, ClientDriverProperty> clientDriverMap) {
 
         Map<String, ClientDriver> map = new HashMap<>(clientDriverMap.size() * 2);
         for (Map.Entry<String, ClientDriverProperty> item : clientDriverMap.entrySet()) {
             ClientDriverProperty clientDriverProperty = item.getValue();
             String driverName = clientDriverProperty.getDriver();
-            ClientDriver driver = clientDriverHolder.getClientDriver(clientDriverProperty);
+            ClientDriver driver = ClientDriverHolder.getClientDriver(clientDriverProperty);
             if (ObjectUtils.isEmpty(driverName)) {
                 driverName = item.getKey();
             }

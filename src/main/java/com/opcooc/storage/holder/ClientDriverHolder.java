@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 public class ClientDriverHolder {
 
-    public ClientDriver getClientDriver(ClientDriverProperty property) {
+    public static ClientDriver getClientDriver(ClientDriverProperty property) {
 
         if (property.getCustomClient() != null) {
             //实例化自定义 ClientDriver
@@ -54,7 +54,7 @@ public class ClientDriverHolder {
         return getDefaultS3ClientDriver(property);
     }
 
-    public ClientDriver getCustomizeClientDriver(ClientDriverProperty property) {
+    public static ClientDriver getCustomizeClientDriver(ClientDriverProperty property) {
         // 校验配置合法性
         property.preCheck();
         Client client = StorageUtil.instantiateClass(property.getCustomClient(), property);
@@ -63,7 +63,7 @@ public class ClientDriverHolder {
         return driver;
     }
 
-    public ClientDriver getDefaultS3ClientDriver(ClientDriverProperty property) {
+    public static ClientDriver getDefaultS3ClientDriver(ClientDriverProperty property) {
         // 校验配置合法性
         property.preCheck();
         S3Client client = new S3Client(property);
