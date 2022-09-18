@@ -103,6 +103,11 @@ public class S3Client implements Client {
     }
 
     @Override
+    public String getDefaultBucketName() {
+        return configuration.getDefaultBucket();
+    }
+
+    @Override
     public void setBucketAcl(BucketAclArgs args) {
         try {
             client.setBucketAcl(args.getBucketName(), args.getCannedAcl());

@@ -42,7 +42,7 @@ public abstract class AbstractClientDriverProvider implements ClientDriverProvid
         for (Map.Entry<String, ClientDriverProperty> item : clientDriverMap.entrySet()) {
             ClientDriverProperty clientDriverProperty = item.getValue();
             String driverName = clientDriverProperty.getDriver();
-            ClientDriver driver = clientDriverHolder.getClientDriver(item.getValue());
+            ClientDriver driver = clientDriverHolder.getClientDriver(clientDriverProperty);
             if (ObjectUtils.isEmpty(driverName)) {
                 driverName = item.getKey();
             }

@@ -162,6 +162,11 @@ public class StorageClient implements InitializingBean, Client {
     }
 
     @Override
+    public String getDefaultBucketName() {
+        return getConfiguration().getDefaultBucket();
+    }
+
+    @Override
     public void setBucketAcl(BucketAclArgs args) {
         args = determineArgs(args);
         args.validate();

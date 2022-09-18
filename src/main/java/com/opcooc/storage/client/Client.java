@@ -43,6 +43,13 @@ import com.opcooc.storage.model.FileBasicInfo;
 public interface Client extends Closeable {
 
     /**
+     * 获取配置默认的 bucketName
+     *
+     * @return ACL 列表
+     */
+    String getDefaultBucketName();
+
+    /**
      * 设置存储空间(主目录)ACL模式(只支持兼容s3协议的服务商)
      *
      * @param args 参数

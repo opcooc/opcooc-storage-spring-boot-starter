@@ -49,7 +49,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author shenqicheng
  * @since 1.0.0
  */
-@Slf4j
 @AutoConfiguration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(DynamicStorageProperties.class)

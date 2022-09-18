@@ -35,7 +35,7 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = DynamicStorageProperties.PREFIX)
 public class DynamicStorageProperties {
 
-    public static final String PREFIX = "spring.storage.dynamic";
+    public static final String PREFIX = "opcooc.storage.dynamic";
     public static final String ENABLED = "enabled";
 
     /**
