@@ -90,7 +90,7 @@ repositories {
 
 dependencies {
 
-    api 'com.amazonaws:aws-java-sdk-s3:1.12.303'
+    api 'com.amazonaws:aws-java-sdk-s3:1.12.305'
     api "org.springframework.boot:spring-boot-autoconfigure"
 
     annotationProcessor "org.springframework.boot:spring-boot-autoconfigure-processor"

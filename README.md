@@ -69,12 +69,12 @@
             <dependency>
               <groupId>com.opcooc</groupId>
               <artifactId>opcooc-storage-spring-boot-starter</artifactId>
-              <version>1.0.1</version>
+              <version>1.1.0</version>
             </dependency>
         ```
     -   Gradle
         ```groovy
-        implementation 'com.opcooc:opcooc-storage-spring-boot-starter:1.0.1'
+        implementation 'com.opcooc:opcooc-storage-spring-boot-starter:1.1.0'
         ```
 
 ## 添加配置，在 `application.yml` 中添加配置信息
