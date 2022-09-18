@@ -111,13 +111,13 @@
               enabled: true #是否开启 opcooc-storage
               driver:
                 s3_customize_client_driver:
-                  driver: s3_customize_client_driver
+                  driver: s3_customize_client_client
                   default-bucket: opcooc
                   endpoint: http://xxx.com
                   username: xxx
                   password: xxx
                   region: cn-north-1
-                  custom-client: com.example.demo.config.DemoClientDriver #自定义客户端clazz
+                  custom-client: com.example.demo.config.DemoClient #自定义客户端clazz
                   auto-create-bucket: true
 
     ```
