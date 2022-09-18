@@ -15,16 +15,32 @@
  */
 package com.opcooc.storage.args;
 
+import java.util.Collection;
+
+import com.opcooc.storage.toolkit.StorageChecker;
+
+import lombok.Getter;
+import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 
 /**
  * @author shenqicheng
  * @since 1.0.0
  */
+@Getter
 @SuperBuilder(toBuilder = true)
-public class DeleteObjectArgs extends ObjectArgs {
+public class DeleteObjectArgs extends BucketArgs {
+
+    @Singular
+    private Collection<String> objectNames;
+
+    public String getObjectName() {
+        return objectNames.iterator().next();
+    }
+
     @Override
     public void validate() {
         super.validate();
+        StorageChecker.validateEmpty(objectNames, "DeleteObject objectNames");
     }
 }

@@ -36,12 +36,4 @@ public class StorageException extends RuntimeException {
         this(String.format(format, args));
     }
 
-    public StorageException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public StorageException(String format, Throwable cause, Object... args) {
-        this(String.format(format, args), cause);
-    }
-
 }

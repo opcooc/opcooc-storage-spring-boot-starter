@@ -15,9 +15,8 @@
  */
 package com.opcooc.storage.args;
 
-import static com.opcooc.storage.toolkit.StorageChecker.validateNotEmptyString;
-
-import com.opcooc.storage.toolkit.ContentTypeUtils;
+import com.opcooc.storage.support.ObjectConverter;
+import com.opcooc.storage.toolkit.StorageChecker;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -30,36 +29,13 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class ObjectArgs extends BucketArgs {
 
-    public static final long MAX_OBJECT_SIZE = 5L * 1024 * 1024 * 1024 * 1024;
-
     private String objectName;
 
-    private long objectSize;
-
-    private String contentType;
-
-    public String getContentType() {
-        if (contentType != null) {
-            return contentType;
-        }
-        contentType = ContentTypeUtils.getContentType(objectName);
-        return (contentType != null && !contentType.isEmpty())
-                ? contentType
-                : "application/octet-stream";
-    }
+    private ObjectConverter objectConverter;
 
     @Override
     public void validate() {
         super.validate();
-        validateNotEmptyString(this.objectName, "object name");
-        validateObjectSize();
+        StorageChecker.validateNotEmptyString(this.objectName, "ObjectArgs objectName");
     }
-
-    private void validateObjectSize() {
-        if (objectSize > MAX_OBJECT_SIZE) {
-            throw new IllegalArgumentException(
-                    "object size " + objectSize + " is not supported; maximum allowed 5TiB");
-        }
-    }
-
 }

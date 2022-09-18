@@ -15,9 +15,7 @@
  */
 package com.opcooc.storage.args;
 
-import static com.opcooc.storage.toolkit.StorageChecker.validateNotNull;
-
-import java.io.InputStream;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -28,13 +26,14 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @SuperBuilder(toBuilder = true)
-public class UploadObjectArgs extends ObjectArgs {
+public class BucketAclArgs extends BucketArgs {
 
-    private InputStream stream;
-
+    /**
+     * The canned ACL to apply to the specified bucket.
+     */
+    private CannedAccessControlList cannedAcl;
     @Override
     public void validate() {
         super.validate();
-        validateNotNull(stream, "stream");
     }
 }

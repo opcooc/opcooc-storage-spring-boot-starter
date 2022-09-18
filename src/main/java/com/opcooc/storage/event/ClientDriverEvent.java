@@ -23,13 +23,17 @@ import org.springframework.context.ApplicationEvent;
  */
 public class ClientDriverEvent extends ApplicationEvent {
 
-    public String driverName;
+    public static final String EVENT_ADD = "add";
+
+    public static final String EVENT_DELETE = "delete";
+
+    public String driver;
 
     public String type;
 
-    public ClientDriverEvent(String driverName, String type) {
-        super(driverName);
-        this.driverName = driverName;
+    public ClientDriverEvent(String driver, String type) {
+        super(driver);
+        this.driver = driver;
         this.type = type;
     }
 
@@ -38,8 +42,8 @@ public class ClientDriverEvent extends ApplicationEvent {
      *
      * @return 驱动名称
      */
-    public String getDriverName() {
-        return driverName;
+    public String getDriver() {
+        return driver;
     }
 
     /**

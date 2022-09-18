@@ -15,6 +15,8 @@
  */
 package com.opcooc.storage.args;
 
+import com.opcooc.storage.toolkit.StorageChecker;
+
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -24,10 +26,15 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @SuperBuilder(toBuilder = true)
-public class GetBucketAclArgs extends BucketArgs {
+public class BucketPolicyArgs extends BucketArgs {
 
+    /**
+     * The policy to apply to the specified bucket.
+     */
+    private String policyText;
     @Override
     public void validate() {
         super.validate();
+        StorageChecker.validateNotEmptyString(policyText, "policyText");
     }
 }

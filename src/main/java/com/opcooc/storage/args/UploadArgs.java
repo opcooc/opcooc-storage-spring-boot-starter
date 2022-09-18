@@ -15,38 +15,42 @@
  */
 package com.opcooc.storage.args;
 
-import static com.opcooc.storage.toolkit.StorageChecker.validateNotEmptyString;
-import static com.opcooc.storage.toolkit.StorageChecker.validateNotNull;
-
 import java.io.File;
+import java.io.InputStream;
 
 import com.opcooc.storage.exception.StorageException;
+import com.opcooc.storage.toolkit.StorageChecker;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author shenqicheng
  * @since 1.0.0
  */
-@Slf4j
+@Getter
 @SuperBuilder(toBuilder = true)
-public class UploadUrlArgs extends ObjectArgs {
+public class UploadArgs extends ObjectArgs {
 
-    @Getter
-    private String url;
-
-    @Getter
     private File file;
+
+    private InputStream stream;
+
+    private long objectSize;
+
+    private String contentType;
 
     @Override
     public void validate() {
         super.validate();
-        validateNotEmptyString(this.url, "url");
-        validateNotNull(file, "file");
-        if (!file.exists()) {
-            throw new StorageException("opcooc-storage - [%s] the file does not exist", file);
+        StorageChecker.validateObjectSize(objectSize);
+        if (file == null && stream == null) {
+            throw new StorageException("file and stream cannot both be empty.");
+        }
+        if (file == null) {
+            StorageChecker.validateNotNull(stream, "UploadArgs stream");
+        } else {
+            StorageChecker.validateFile(file);
         }
     }
 }

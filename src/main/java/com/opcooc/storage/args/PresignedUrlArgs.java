@@ -15,6 +15,10 @@
  */
 package com.opcooc.storage.args;
 
+import com.amazonaws.HttpMethod;
+import com.opcooc.storage.toolkit.StorageChecker;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -24,10 +28,19 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @SuperBuilder(toBuilder = true)
-public class DeleteBucketPolicyArgs extends BucketArgs {
+public class PresignedUrlArgs extends ObjectArgs {
+
+    private HttpMethod method;
+
+    @Builder.Default
+    private Boolean specType = true;
+
+    @Builder.Default
+    private long expiry = StorageChecker.DEFAULT_EXPIRY_TIME;
 
     @Override
     public void validate() {
         super.validate();
+        StorageChecker.validateExpiry(expiry);
     }
 }

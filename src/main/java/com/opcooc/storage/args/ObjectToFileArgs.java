@@ -15,39 +15,26 @@
  */
 package com.opcooc.storage.args;
 
-import static com.opcooc.storage.toolkit.StorageChecker.validateNotEmptyString;
+import java.io.File;
 
-import com.opcooc.storage.exception.StorageException;
+import com.opcooc.storage.toolkit.StorageChecker;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author shenqicheng
  * @since 1.0.0
  */
-@Slf4j
 @Getter
 @SuperBuilder(toBuilder = true)
-public class SetFolderArgs extends BucketArgs {
+public class ObjectToFileArgs extends ObjectArgs {
 
-    private static final String SYMBOL = "/";
-
-    private String folderName;
+    private File file;
 
     @Override
     public void validate() {
         super.validate();
-        validateFolderName(folderName);
-    }
-
-    private void validateFolderName(String folderName) {
-
-        validateNotEmptyString(folderName, "folderName");
-
-        if (!folderName.endsWith(SYMBOL)) {
-            throw new StorageException("opcooc-storage - [%s] folderName must end with '/' ", folderName);
-        }
+        StorageChecker.validateFile(file);
     }
 }

@@ -49,37 +49,21 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.opcooc.storage.args.BucketAclArgs;
+import com.opcooc.storage.args.BucketArgs;
+import com.opcooc.storage.args.BucketPolicyArgs;
 import com.opcooc.storage.args.CopyObjectArgs;
-import com.opcooc.storage.args.CopySource;
-import com.opcooc.storage.args.CreateBucketArgs;
-import com.opcooc.storage.args.DeleteBucketArgs;
-import com.opcooc.storage.args.DeleteBucketPolicyArgs;
 import com.opcooc.storage.args.DeleteObjectArgs;
-import com.opcooc.storage.args.DeleteObjectsArgs;
-import com.opcooc.storage.args.DoesBucketExistArgs;
-import com.opcooc.storage.args.DoesObjectExistArgs;
-import com.opcooc.storage.args.GetBucketAclArgs;
-import com.opcooc.storage.args.GetBucketPolicyArgs;
-import com.opcooc.storage.args.GetObjectAclArgs;
-import com.opcooc.storage.args.GetObjectToFileArgs;
-import com.opcooc.storage.args.GetObjectToStreamArgs;
-import com.opcooc.storage.args.GetPresignedObjectUrlArgs;
-import com.opcooc.storage.args.GetUrlArgs;
-import com.opcooc.storage.args.ListObjectsArgs;
+import com.opcooc.storage.args.ListObjectArgs;
+import com.opcooc.storage.args.ObjectAclArgs;
 import com.opcooc.storage.args.ObjectArgs;
-import com.opcooc.storage.args.ObjectMetadataArgs;
-import com.opcooc.storage.args.SetBucketAclArgs;
-import com.opcooc.storage.args.SetBucketPolicyArgs;
-import com.opcooc.storage.args.SetFolderArgs;
-import com.opcooc.storage.args.SetObjectAclArgs;
-import com.opcooc.storage.args.UploadFileArgs;
-import com.opcooc.storage.args.UploadObjectArgs;
-import com.opcooc.storage.args.UploadUrlArgs;
+import com.opcooc.storage.args.ObjectToFileArgs;
+import com.opcooc.storage.args.PresignedUrlArgs;
+import com.opcooc.storage.args.UploadArgs;
 import com.opcooc.storage.exception.StorageException;
 import com.opcooc.storage.model.FileBasicInfo;
 import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
 import com.opcooc.storage.toolkit.ContentTypeUtils;
-import com.opcooc.storage.toolkit.HttpUtils;
 import com.opcooc.storage.toolkit.StorageUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -119,20 +103,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public void createFolder(SetFolderArgs args) {
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(0);
-        PutObjectRequest putObjectRequest =
-                new PutObjectRequest(args.getBucketName(), args.getFolderName(), new ByteArrayInputStream(new byte[]{}), metadata);
-        try {
-            client.putObject(putObjectRequest);
-        } catch (Exception e) {
-            throw new StorageException(e);
-        }
-    }
-
-    @Override
-    public void setBucketAcl(SetBucketAclArgs args) {
+    public void setBucketAcl(BucketAclArgs args) {
         try {
             client.setBucketAcl(args.getBucketName(), args.getCannedAcl());
         } catch (Exception e) {
@@ -141,7 +112,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public AccessControlList getBucketAcl(GetBucketAclArgs args) {
+    public AccessControlList getBucketAcl(BucketAclArgs args) {
         try {
             return client.getBucketAcl(args.getBucketName());
         } catch (Exception e) {
@@ -150,7 +121,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public void setBucketPolicy(SetBucketPolicyArgs args) {
+    public void setBucketPolicy(BucketPolicyArgs args) {
         try {
             client.setBucketPolicy(args.getBucketName(), args.getPolicyText());
         } catch (Exception e) {
@@ -159,7 +130,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public BucketPolicy getBucketPolicy(GetBucketPolicyArgs args) {
+    public BucketPolicy getBucketPolicy(BucketPolicyArgs args) {
         try {
             return client.getBucketPolicy(args.getBucketName());
         } catch (Exception e) {
@@ -168,7 +139,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public void deleteBucketPolicy(DeleteBucketPolicyArgs args) {
+    public void deleteBucketPolicy(BucketPolicyArgs args) {
         try {
             client.deleteBucketPolicy(args.getBucketName());
         } catch (Exception e) {
@@ -177,7 +148,38 @@ public class S3Client implements Client {
     }
 
     @Override
-    public String createBucket(CreateBucketArgs args) {
+    public void setObjectAcl(ObjectAclArgs args) {
+        try {
+            client.setObjectAcl(args.getBucketName(), args.getObjectName(), args.getCannedAcl());
+        } catch (Exception e) {
+            throw new StorageException(e);
+        }
+    }
+
+    @Override
+    public AccessControlList getObjectAcl(ObjectAclArgs args) {
+        try {
+            return client.getObjectAcl(args.getBucketName(), args.getObjectName());
+        } catch (Exception e) {
+            throw new StorageException(e);
+        }
+    }
+
+    @Override
+    public void createFolder(ObjectArgs args) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(0);
+        PutObjectRequest putObjectRequest =
+                new PutObjectRequest(args.getBucketName(), args.getObjectName(), new ByteArrayInputStream(new byte[]{}), metadata);
+        try {
+            client.putObject(putObjectRequest);
+        } catch (Exception e) {
+            throw new StorageException(e);
+        }
+    }
+
+    @Override
+    public String createBucket(BucketArgs args) {
         try {
             Bucket bucket = client.createBucket(args.getBucketName());
             return bucket.getName();
@@ -187,7 +189,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public void deleteBucket(DeleteBucketArgs args) {
+    public void deleteBucket(BucketArgs args) {
         try {
             ObjectListing objectListing = client.listObjects(args.getBucketName());
             while (true) {
@@ -219,7 +221,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public boolean doesBucketExist(DoesBucketExistArgs args) {
+    public boolean doesBucketExist(BucketArgs args) {
         try {
             return client.doesBucketExistV2(args.getBucketName());
         } catch (Exception e) {
@@ -227,26 +229,9 @@ public class S3Client implements Client {
         }
     }
 
-    @Override
-    public void setObjectAcl(SetObjectAclArgs args) {
-        try {
-            client.setObjectAcl(args.getBucketName(), args.getObjectName(), args.getCannedAcl());
-        } catch (Exception e) {
-            throw new StorageException(e);
-        }
-    }
 
     @Override
-    public AccessControlList getObjectAcl(GetObjectAclArgs args) {
-        try {
-            return client.getObjectAcl(args.getBucketName(), args.getObjectName());
-        } catch (Exception e) {
-            throw new StorageException(e);
-        }
-    }
-
-    @Override
-    public FileBasicInfo uploadObject(UploadObjectArgs args) {
+    public FileBasicInfo uploadObject(UploadArgs args) {
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(args.getObjectSize());
@@ -259,7 +244,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public FileBasicInfo uploadFile(UploadFileArgs args) {
+    public FileBasicInfo uploadFile(UploadArgs args) {
         try {
             PutObjectResult result = client.putObject(args.getBucketName(), args.getObjectName(), args.getFile());
             return StorageUtil.createFileBasicInfo(result, args, args.getObjectSize());
@@ -269,20 +254,8 @@ public class S3Client implements Client {
     }
 
     @Override
-    public FileBasicInfo uploadUrl(UploadUrlArgs args) {
-        try {
-            File file = args.getFile();
-            HttpUtils.downloadToFile(args.getUrl(), file);
-            PutObjectResult result = client.putObject(args.getBucketName(), args.getObjectName(), file);
-            return StorageUtil.createFileBasicInfo(result, args, file.length());
-        } catch (Exception e) {
-            throw new StorageException(e);
-        }
-    }
-
-    @Override
     public void copyObject(CopyObjectArgs args) {
-        CopySource source = args.getSource();
+        ObjectArgs source = args.getSource();
         try {
             client.copyObject(new CopyObjectRequest(source.getBucketName(), source.getObjectName(), args.getBucketName(), args.getObjectName()));
         } catch (Exception e) {
@@ -291,29 +264,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public List<FileBasicInfo> listObjects(ListObjectsArgs args) {
-        ListObjectsV2Request req = new ListObjectsV2Request()
-                .withBucketName(args.getBucketName())
-                .withPrefix(args.getPrefix())
-                .withMaxKeys(args.getMaxKeys());
-
-        ListObjectsV2Result result;
-        List<FileBasicInfo> objectList = new ArrayList<>();
-        do {
-            result = client.listObjectsV2(req);
-
-            for (S3ObjectSummary object : result.getObjectSummaries()) {
-                objectList.add(StorageUtil.createFileBasicInfo(object, args));
-            }
-            // If there are more than maxKeys keys in the bucket, get a continuation token
-            // and list the next objects.
-            req.setContinuationToken(result.getNextContinuationToken());
-        } while (result.isTruncated());
-        return objectList;
-    }
-
-    @Override
-    public boolean objectExist(DoesObjectExistArgs args) {
+    public boolean objectExist(ObjectArgs args) {
         try {
             return client.doesObjectExist(args.getBucketName(), args.getObjectName());
         } catch (Exception e) {
@@ -328,12 +279,12 @@ public class S3Client implements Client {
     private void checkObjectExist(ObjectArgs args) {
         boolean objectExist = client.doesObjectExist(args.getBucketName(), args.getObjectName());
         if (!objectExist) {
-            throw new StorageException("opcooc-storage - bucket name: [%s], object name [%s] does not exist", args.getBucketName(), args.getObjectName());
+            throw new StorageException("bucket name: [%s], object name [%s] does not exist", args.getBucketName(), args.getObjectName());
         }
     }
 
     @Override
-    public FileBasicInfo getObjectMetadata(ObjectMetadataArgs args) {
+    public FileBasicInfo getObjectMetadata(ObjectArgs args) {
         try {
             //判断对象是否存在
             checkObjectExist(args);
@@ -345,7 +296,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public InputStream getObjectToStream(GetObjectToStreamArgs args) {
+    public InputStream getObjectToStream(ObjectArgs args) {
         try {
             //判断对象是否存在
             checkObjectExist(args);
@@ -357,7 +308,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public File geObjectToFile(GetObjectToFileArgs args) {
+    public File geObjectToFile(ObjectToFileArgs args) {
         try {
             //判断对象是否存在
             checkObjectExist(args);
@@ -378,9 +329,9 @@ public class S3Client implements Client {
     }
 
     @Override
-    public void deleteObjects(DeleteObjectsArgs args) {
+    public void deleteObjects(DeleteObjectArgs args) {
         try {
-            List<DeleteObjectsRequest.KeyVersion> objects = args.getObjects().stream().map(DeleteObjectsRequest.KeyVersion::new).collect(toList());
+            List<DeleteObjectsRequest.KeyVersion> objects = args.getObjectNames().stream().map(DeleteObjectsRequest.KeyVersion::new).collect(toList());
             DeleteObjectsRequest request = new DeleteObjectsRequest(args.getBucketName()).withKeys(objects);
             client.deleteObjects(request);
         } catch (Exception e) {
@@ -389,7 +340,30 @@ public class S3Client implements Client {
     }
 
     @Override
-    public String getUrl(GetUrlArgs args) {
+    public List<FileBasicInfo> listObjects(ListObjectArgs args) {
+        ListObjectsV2Request req = new ListObjectsV2Request()
+                .withBucketName(args.getBucketName())
+                .withPrefix(args.getObjectName())
+                .withMaxKeys(args.getMaxKeys());
+
+        ListObjectsV2Result result;
+        List<FileBasicInfo> objectList = new ArrayList<>();
+        do {
+            result = client.listObjectsV2(req);
+
+            for (S3ObjectSummary object : result.getObjectSummaries()) {
+                objectList.add(StorageUtil.createFileBasicInfo(object, args));
+            }
+            // If there are more than maxKeys keys in the bucket, get a continuation token
+            // and list the next objects.
+            req.setContinuationToken(result.getNextContinuationToken());
+        } while (result.isTruncated());
+        return objectList;
+    }
+
+
+    @Override
+    public String getUrl(ObjectArgs args) {
         try {
             URL url = client.getUrl(args.getBucketName(), args.getObjectName());
             return url.toExternalForm();
@@ -399,7 +373,7 @@ public class S3Client implements Client {
     }
 
     @Override
-    public String generatePresignedUrl(GetPresignedObjectUrlArgs args) {
+    public String generatePresignedUrl(PresignedUrlArgs args) {
         try {
             //过期时间
             Date expiry = new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(args.getExpiry()));
@@ -407,7 +381,7 @@ public class S3Client implements Client {
                     .withMethod(args.getMethod())
                     .withExpiration(expiry);
 
-            if (args.isSpecType() && (args.getMethod() == HttpMethod.PUT || args.getMethod() == HttpMethod.POST)) {
+            if (Boolean.TRUE.equals(args.getSpecType()) && (args.getMethod() == HttpMethod.PUT || args.getMethod() == HttpMethod.POST)) {
                 //强制前端需要在的上传方法添加对应的 Request Header( key: Content-Type, value: {fileType} )
                 //不开启需要前端自行添加没有强制要求
                 //用于解决文件上传到文件服务器之后没有对应的文件类型问题

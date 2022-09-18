@@ -31,7 +31,6 @@ import com.opcooc.storage.event.ClientDriverEvent;
 import com.opcooc.storage.exception.StorageException;
 import com.opcooc.storage.holder.DynamicClientContextHolder;
 import com.opcooc.storage.provider.ClientDriverProvider;
-import com.opcooc.storage.toolkit.StorageConstant;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -77,18 +76,18 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
     /**
      * 获取驱动
      *
-     * @param driverName 驱动名称
+     * @param driver 驱动名称
      * @return 驱动
      */
-    public ClientDriver getClientDriver(String driverName) {
-        if (ObjectUtils.isEmpty(driverName)) {
+    public ClientDriver getClientDriver(String driver) {
+        if (ObjectUtils.isEmpty(driver)) {
             return determinePrimaryClientDriver();
-        } else if (clientDriverMap.containsKey(driverName)) {
-            log.debug("opcooc-storage - switch to the client driver named [{}]", driverName);
-            return clientDriverMap.get(driverName);
+        } else if (clientDriverMap.containsKey(driver)) {
+            log.debug("opcooc-storage - switch to the client driver named [{}]", driver);
+            return clientDriverMap.get(driver);
         }
-        if (strict) {
-            throw new StorageException("opcooc-storage - could not find a client driver named" + driverName);
+        if (Boolean.TRUE.equals(strict)) {
+            throw new StorageException("could not find a client driver named" + driver);
         }
         return determinePrimaryClientDriver();
     }
@@ -96,43 +95,43 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
     /**
      * 添加驱动
      *
-     * @param driverName           驱动名称
+     * @param driver           驱动名称
      * @param clientDriver 驱动
      */
-    public synchronized void addClientDriver(String driverName, ClientDriver clientDriver) {
-        if (!clientDriverMap.containsKey(driverName)) {
-            clientDriverMap.put(driverName, clientDriver);
-            publishEvent(driverName, StorageConstant.EVENT_ADD);
-            log.info("opcooc-storage - load a client driver named [{}] success", driverName);
+    public synchronized void addClientDriver(String driver, ClientDriver clientDriver) {
+        if (!clientDriverMap.containsKey(driver)) {
+            clientDriverMap.put(driver, clientDriver);
+            publishEvent(driver, ClientDriverEvent.EVENT_ADD);
+            log.info("opcooc-storage - load a client driver named [{}] success", driver);
         } else {
-            log.warn("opcooc-storage - load a client driver named [{}] failed, because it already exist", driverName);
+            log.warn("opcooc-storage - load a client driver named [{}] failed, because it already exist", driver);
         }
     }
 
     /**
      * 删除驱动
      *
-     * @param driverName 驱动名称
+     * @param driver 驱动名称
      */
-    public synchronized void removeClientDriver(String driverName) {
-        if (!StringUtils.hasText(driverName)) {
-            throw new StorageException("opcooc-storage - remove parameter could not be empty");
+    public synchronized void removeClientDriver(String driver) {
+        if (!StringUtils.hasText(driver)) {
+            throw new StorageException("remove parameter could not be empty");
         }
-        if (primary.equals(driverName)) {
-            throw new StorageException("opcooc-storage - could not remove primary client driver");
+        if (primary.equals(driver)) {
+            throw new StorageException("could not remove primary client driver");
         }
-        if (clientDriverMap.containsKey(driverName)) {
-            ClientDriver clientDriver = clientDriverMap.get(driverName);
+        if (clientDriverMap.containsKey(driver)) {
+            ClientDriver clientDriver = clientDriverMap.get(driver);
             try {
                 clientDriver.close();
-                publishEvent(driverName, StorageConstant.EVENT_DELETE);
+                publishEvent(driver, ClientDriverEvent.EVENT_DELETE);
             } catch (Exception e) {
-                log.error("opcooc-storage - remove the client driver named [{}]  failed", driverName, e);
+                log.error("opcooc-storage - remove the client driver named [{}]  failed", driver, e);
             }
-            clientDriverMap.remove(driverName);
-            log.info("opcooc-storage - remove the client driver named [{}] success", driverName);
+            clientDriverMap.remove(driver);
+            log.info("opcooc-storage - remove the client driver named [{}] success", driver);
         } else {
-            log.warn("opcooc-storage - could not find a client driver named [{}]", driverName);
+            log.warn("opcooc-storage - could not find a client driver named [{}]", driver);
         }
     }
 
@@ -150,7 +149,7 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
         if (clientDriverMap.containsKey(primary)) {
             log.info("opcooc-storage - initial loaded [{}] client driver,primary client driver named [{}]", clientDriverMap.size(), primary);
         } else {
-            throw new StorageException("opcooc-storage - please check the setting of primary");
+            throw new StorageException("please check the setting of primary");
         }
     }
 
@@ -169,7 +168,7 @@ public class DynamicRoutingClientDriver extends AbstractRoutingClientDriver impl
         this.applicationContext = applicationContext;
     }
 
-    public void publishEvent(String driverName, String type) {
-        applicationContext.publishEvent(new ClientDriverEvent(driverName, type));
+    public void publishEvent(String driver, String type) {
+        applicationContext.publishEvent(new ClientDriverEvent(driver, type));
     }
 }

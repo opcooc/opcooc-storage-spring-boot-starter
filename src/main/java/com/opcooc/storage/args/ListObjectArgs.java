@@ -15,6 +15,9 @@
  */
 package com.opcooc.storage.args;
 
+import com.opcooc.storage.toolkit.StorageChecker;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -24,10 +27,14 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @SuperBuilder(toBuilder = true)
-public class GetBucketPolicyArgs extends BucketArgs {
+public class ListObjectArgs extends ObjectArgs {
+
+    @Builder.Default
+    private int maxKeys = 1000;
 
     @Override
     public void validate() {
         super.validate();
+        StorageChecker.validateNotNull(maxKeys, "ListObjectArgs maxKeys");
     }
 }

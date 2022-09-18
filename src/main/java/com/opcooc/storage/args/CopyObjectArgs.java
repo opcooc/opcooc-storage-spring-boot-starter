@@ -15,7 +15,7 @@
  */
 package com.opcooc.storage.args;
 
-import static com.opcooc.storage.toolkit.StorageChecker.validateNotNull;
+import com.opcooc.storage.toolkit.StorageChecker;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -28,14 +28,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class CopyObjectArgs extends ObjectArgs {
 
-    /**
-     * 需要被复制的文件
-     */
-    private CopySource source;
-
+    private ObjectArgs source;
     @Override
     public void validate() {
         super.validate();
-        validateNotNull(this.source, "copy source");
+        StorageChecker.validateNotNull(source, "CopyObject source");
     }
 }

@@ -30,10 +30,9 @@ public class ContentTypeUtils {
     }
 
     public static final String CONTENT_TYPE = "Content-Type";
+
     public static final String POINT = ".";
-    /**
-     * 默认类型
-     */
+
     public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
 
     private static final Map<String, String> CONTENT_TYPE_MAP = new HashMap<>();
@@ -53,7 +52,7 @@ public class ContentTypeUtils {
 
         fileName = fileName.toLowerCase();
         String ext = fileName.substring(fileName.lastIndexOf(POINT));
-        return CONTENT_TYPE_MAP.get(ext);
+        return CONTENT_TYPE_MAP.getOrDefault(ext, DEFAULT_CONTENT_TYPE);
     }
 
     static {

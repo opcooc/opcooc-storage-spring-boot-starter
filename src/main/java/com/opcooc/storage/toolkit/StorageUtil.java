@@ -23,7 +23,6 @@ import org.springframework.util.ClassUtils;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.opcooc.storage.args.BucketArgs;
 import com.opcooc.storage.args.ObjectArgs;
 import com.opcooc.storage.model.FileBasicInfo;
 
@@ -47,7 +46,7 @@ public class StorageUtil {
         return info;
     }
 
-    public static FileBasicInfo createFileBasicInfo(S3ObjectSummary result, BucketArgs args) {
+    public static FileBasicInfo createFileBasicInfo(S3ObjectSummary result, ObjectArgs args) {
         FileBasicInfo info = new FileBasicInfo();
         info.setKey(result.getKey());
         info.setContentLength(result.getSize());
@@ -60,7 +59,7 @@ public class StorageUtil {
         FileBasicInfo info = new FileBasicInfo();
         info.setETag(metadata.getETag());
         info.setKey(args.getObjectName());
-        info.setContentLength(args.getObjectSize());
+        info.setContentLength(metadata.getContentLength());
         info.setBucketName(args.getBucketName());
         info.setContentMd5(metadata.getContentMD5());
         info.setMetadata(metadata.getRawMetadata());

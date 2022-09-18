@@ -15,13 +15,26 @@
  */
 package com.opcooc.storage.args;
 
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+
+import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
 /**
  * @author shenqicheng
  * @since 1.0.0
  */
+@Getter
 @SuperBuilder(toBuilder = true)
-public class CreateBucketArgs extends BucketArgs {
+public class ObjectAclArgs extends ObjectArgs {
 
+    /**
+     * The canned ACL to apply to the specified bucket.
+     */
+    private CannedAccessControlList cannedAcl;
+
+    @Override
+    public void validate() {
+        super.validate();
+    }
 }
