@@ -91,7 +91,7 @@ public class ClientDriverProperty {
      * 客户端驱动参数预处理(抛出内置异常)
      */
     public void preCheck() throws StorageException {
-        if (StringUtils.hasText(username) || StringUtils.hasText(password) || StringUtils.hasText(endpoint)) {
+        if (!StringUtils.hasText(username) || !StringUtils.hasText(password) || !StringUtils.hasText(endpoint)) {
             throw new StorageException("property pre check error, params incomplete.");
         }
     }
