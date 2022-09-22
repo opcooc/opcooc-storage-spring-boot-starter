@@ -222,7 +222,6 @@ public class StorageClient implements InitializingBean, Client {
 
     @Override
     public boolean doesBucketExist(BucketArgs args) {
-        args = determineArgs(args);
         args.validate();
         return getConnect().doesBucketExist(args);
     }
