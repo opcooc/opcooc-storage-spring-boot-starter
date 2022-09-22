@@ -62,6 +62,7 @@ import com.opcooc.storage.args.PresignedUrlArgs;
 import com.opcooc.storage.args.UploadArgs;
 import com.opcooc.storage.exception.StorageException;
 import com.opcooc.storage.model.FileBasicInfo;
+import com.opcooc.storage.model.UrlResult;
 import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
 import com.opcooc.storage.toolkit.ContentTypeUtils;
 import com.opcooc.storage.toolkit.StorageUtil;
@@ -378,9 +379,10 @@ public class S3Client implements Client {
     }
 
     @Override
-    public String generatePresignedUrl(PresignedUrlArgs args) {
+    public UrlResult generatePresignedUrl(PresignedUrlArgs args) {
         try {
             //过期时间
+            String fileType = ContentTypeUtils.getContentType(args.getObjectName());
             Date expiry = new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(args.getExpiry()));
             GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(args.getBucketName(), args.getObjectName())
                     .withMethod(args.getMethod())
@@ -390,12 +392,21 @@ public class S3Client implements Client {
                 //强制前端需要在的上传方法添加对应的 Request Header( key: Content-Type, value: {fileType} )
                 //不开启需要前端自行添加没有强制要求
                 //用于解决文件上传到文件服务器之后没有对应的文件类型问题
-                String fileType = ContentTypeUtils.getContentType(args.getObjectName());
                 request.putCustomRequestHeader(ContentTypeUtils.CONTENT_TYPE, fileType);
             }
-
+            String openUrl = "";
+            if (args.getObtainOpenUrl()) {
+                URL url = client.getUrl(args.getBucketName(), args.getObjectName());
+                openUrl = url.toExternalForm();
+            }
             URL url = client.generatePresignedUrl(request);
-            return url.toExternalForm();
+            return UrlResult.builder()
+                    .bucketName(args.getBucketName())
+                    .objectName(args.getObjectName())
+                    .preUrl(url.toExternalForm())
+                    .openUrl(openUrl)
+                    .contentType(fileType)
+                    .build();
         } catch (Exception e) {
             throw new StorageException(e);
         }

@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
+import com.opcooc.storage.model.UrlResult;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.ObjectUtils;
 
@@ -133,13 +134,13 @@ public class StorageClient implements InitializingBean, Client {
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends BucketArgs> T determineArgs(T args) {
+    private <T extends BucketArgs> T determineBucketArgs(T args) {
         String bucketName = determineBucket(args);
         return (T) args.toBuilder().bucketName(bucketName).build();
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends ObjectArgs> T determineArgs(T args) {
+    private <T extends ObjectArgs> T determineObjectArgs(T args) {
         String bucketName = determineBucket(args);
         String objectName = determineObject(args);
         return (T) args.toBuilder().bucketName(bucketName).objectName(objectName).build();
@@ -155,7 +156,7 @@ public class StorageClient implements InitializingBean, Client {
 
     @Override
     public void createFolder(ObjectArgs args) {
-        args = determineArgs(args);
+        args = determineObjectArgs(args);
         args.validate();
         StorageChecker.validateFolderName(args.getObjectName());
         getConnect().createFolder(args);
@@ -168,49 +169,49 @@ public class StorageClient implements InitializingBean, Client {
 
     @Override
     public void setBucketAcl(BucketAclArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         getConnect().setBucketAcl(args);
     }
 
     @Override
     public AccessControlList getBucketAcl(BucketAclArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().getBucketAcl(args);
     }
 
     @Override
     public void setBucketPolicy(BucketPolicyArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         getConnect().setBucketPolicy(args);
     }
 
     @Override
     public BucketPolicy getBucketPolicy(BucketPolicyArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().getBucketPolicy(args);
     }
 
     @Override
     public void deleteBucketPolicy(BucketPolicyArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         getConnect().deleteBucketPolicy(args);
     }
 
     @Override
     public String createBucket(BucketArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().createBucket(args);
     }
 
     @Override
     public void deleteBucket(BucketArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         getConnect().deleteBucket(args);
     }
@@ -228,21 +229,21 @@ public class StorageClient implements InitializingBean, Client {
 
     @Override
     public void setObjectAcl(ObjectAclArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         getConnect().setObjectAcl(args);
     }
 
     @Override
     public AccessControlList getObjectAcl(ObjectAclArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().getObjectAcl(args);
     }
 
     @Override
     public FileBasicInfo uploadObject(UploadArgs args) {
-        args = determineArgs(args);
+        args = determineObjectArgs(args);
         args = determineContentType(args);
         args.validate();
         return getConnect().uploadObject(args);
@@ -250,77 +251,79 @@ public class StorageClient implements InitializingBean, Client {
 
     @Override
     public FileBasicInfo uploadFile(UploadArgs args) {
-        args = determineArgs(args);
+        args = determineObjectArgs(args);
         args.validate();
         return getConnect().uploadFile(args);
     }
 
     @Override
     public void copyObject(CopyObjectArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
+        ObjectArgs source = determineObjectArgs(args.getSource());
+        args = args.toBuilder().source(source).build();
         args.validate();
         getConnect().copyObject(args);
     }
 
     @Override
     public List<FileBasicInfo> listObjects(ListObjectArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().listObjects(args);
     }
 
     @Override
     public FileBasicInfo getObjectMetadata(ObjectArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().getObjectMetadata(args);
     }
 
     @Override
     public boolean objectExist(ObjectArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().objectExist(args);
     }
 
     @Override
     public InputStream getObjectToStream(ObjectArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().getObjectToStream(args);
     }
 
     @Override
     public File geObjectToFile(ObjectToFileArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().geObjectToFile(args);
     }
 
     @Override
     public void deleteObject(DeleteObjectArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         getConnect().deleteObject(args);
     }
 
     @Override
     public void deleteObjects(DeleteObjectArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         getConnect().deleteObjects(args);
     }
 
     @Override
-    public String generatePresignedUrl(PresignedUrlArgs args) {
-        args = determineArgs(args);
+    public UrlResult generatePresignedUrl(PresignedUrlArgs args) {
+        args = determineObjectArgs(args);
         args.validate();
         return getConnect().generatePresignedUrl(args);
     }
 
     @Override
     public String getUrl(ObjectArgs args) {
-        args = determineArgs(args);
+        args = determineBucketArgs(args);
         args.validate();
         return getConnect().getUrl(args);
     }

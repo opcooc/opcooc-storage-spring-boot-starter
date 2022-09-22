@@ -36,6 +36,9 @@ public class PresignedUrlArgs extends ObjectArgs {
     private Boolean specType = true;
 
     @Builder.Default
+    private Boolean obtainOpenUrl = false;
+
+    @Builder.Default
     private long expiry = StorageChecker.DEFAULT_EXPIRY_TIME;
 
     @Override

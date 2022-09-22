@@ -35,6 +35,7 @@ import com.opcooc.storage.args.ObjectToFileArgs;
 import com.opcooc.storage.args.PresignedUrlArgs;
 import com.opcooc.storage.args.UploadArgs;
 import com.opcooc.storage.model.FileBasicInfo;
+import com.opcooc.storage.model.UrlResult;
 
 /**
  * @author shenqicheng
@@ -220,7 +221,7 @@ public interface Client extends Closeable {
      * @param args 参数
      * @return 签名url
      */
-    String generatePresignedUrl(PresignedUrlArgs args);
+    UrlResult generatePresignedUrl(PresignedUrlArgs args);
 
     /**
      * 返回存储在指定存储空间(主目录)中的对象的URL
