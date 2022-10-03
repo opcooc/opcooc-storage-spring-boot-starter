@@ -86,7 +86,7 @@ public class DynamicStorageAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public OsProcessor dsProcessor() {
+    public OsProcessor osProcessor() {
         OsHeaderProcessor headerProcessor = new OsHeaderProcessor();
         OsSessionProcessor sessionProcessor = new OsSessionProcessor();
         OsSpelExpressionProcessor spelExpressionProcessor = new OsSpelExpressionProcessor();
