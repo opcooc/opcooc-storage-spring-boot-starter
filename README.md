@@ -67,12 +67,12 @@
             <dependency>
               <groupId>com.opcooc</groupId>
               <artifactId>opcooc-storage-spring-boot-starter</artifactId>
-              <version>1.2.0</version>
+              <version>1.2.1</version>
             </dependency>
         ```
     -   Gradle
         ```groovy
-        implementation 'com.opcooc:opcooc-storage-spring-boot-starter:1.2.0'
+        implementation 'com.opcooc:opcooc-storage-spring-boot-starter:1.2.1'
         ```
 
 ## 添加配置，在 `application.yml` 中添加配置信息
@@ -80,52 +80,50 @@
 
     ```yaml
           storage:
-            dynamic:
-              primary: s3_minio #默认的客户端类型
-              strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
-              enabled: true #是否开启 opcooc-storage
-              driver:
-                s3_minio: #配置文件key名称
-                  type: S3 #默认驱动类型(默认为S3)
-                  default-bucket: opcooc #默认主目录(需要保证唯一)
-                  endpoint: http://xxx.com #访问域名
-                  username: xxx #账号
-                  password: xxx #密码
-                  region: cn-north-1 #区域
-                  path-style: true #路径样式(默认为true)
-                  auto-create-bucket: true #是否自动创建目标bucket
+            primary: s3_minio #默认的客户端类型
+            strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
+            enabled: true #是否开启 opcooc-storage
+            driver:
+              s3_minio: #配置文件key名称
+                type: S3 #默认驱动类型(默认为S3)
+                default-bucket: opcooc #默认主目录(需要保证唯一)
+                endpoint: http://xxx.com #访问域名
+                username: xxx #账号
+                password: xxx #密码
+                region: cn-north-1 #区域
+                path-style: true #路径样式(默认为true)
+                auto-create-bucket: true #是否自动创建目标bucket
 
     ```
 -   其他yaml配置(oss, cos, kodo)。
     ```yaml
           storage:
-            dynamic:
-              primary: s3_minio #默认的客户端类型
-              strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
-              enabled: true #是否开启 opcooc-storage
-              driver:
-                s3_oss:
-                  default-bucket: opcooc
-                  endpoint: http://oss-cn-shanghai.aliyuncs.com
-                  username: xxx
-                  password: xxx
-                  path-style: false
-                  region: cn-north-1
-                  auto-create-bucket: true
-                s3_cos:
-                  default-bucket: opcooc
-                  endpoint: https://bucketname.cos.ap-shanghai.myqcloud.com
-                  username: xxx
-                  password: xxx
-                  region: cn-north-1
-                  auto-create-bucket: true
-                s3_kodo:
-                  default-bucket: opcooc
-                  endpoint: http://s3-cn-south-1.qiniucs.com
-                  username: xxx
-                  password: xxx
-                  region: cn-north-1
-                  auto-create-bucket: true
+            primary: s3_minio #默认的客户端类型
+            strict: true #是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
+            enabled: true #是否开启 opcooc-storage
+            driver:
+              s3_oss:
+                default-bucket: opcooc
+                endpoint: http://oss-cn-shanghai.aliyuncs.com
+                username: xxx
+                password: xxx
+                path-style: false
+                region: cn-north-1
+                auto-create-bucket: true
+              s3_cos:
+                default-bucket: opcooc
+                endpoint: https://bucketname.cos.ap-shanghai.myqcloud.com
+                username: xxx
+                password: xxx
+                region: cn-north-1
+                auto-create-bucket: true
+              s3_kodo:
+                default-bucket: opcooc
+                endpoint: http://s3-cn-south-1.qiniucs.com
+                username: xxx
+                password: xxx
+                region: cn-north-1
+                auto-create-bucket: true
     ```
     
 -   使用 @OS 切换客户端驱动。
