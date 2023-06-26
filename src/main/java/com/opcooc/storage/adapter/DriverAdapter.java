@@ -15,6 +15,7 @@
  */
 package com.opcooc.storage.adapter;
 
+import com.opcooc.storage.exception.StorageException;
 import com.opcooc.storage.service.NFSService;
 import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
 
@@ -32,7 +33,7 @@ public interface DriverAdapter extends Closeable {
      * @return 标识
      */
     default String driver() {
-        throw new RuntimeException("请实现driver方法");
+        throw new StorageException("请实现driver方法");
     }
 
     /**

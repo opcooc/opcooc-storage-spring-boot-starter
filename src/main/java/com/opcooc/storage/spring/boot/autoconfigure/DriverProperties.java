@@ -17,7 +17,6 @@ package com.opcooc.storage.spring.boot.autoconfigure;
 
 import org.springframework.util.StringUtils;
 
-import com.opcooc.storage.constant.DriverType;
 import com.opcooc.storage.exception.StorageException;
 
 import lombok.AllArgsConstructor;

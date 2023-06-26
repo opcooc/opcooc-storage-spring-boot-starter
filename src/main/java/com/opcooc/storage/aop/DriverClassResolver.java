@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.opcooc.storage.support;
+package com.opcooc.storage.aop;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
@@ -46,7 +46,7 @@ import com.opcooc.storage.annotation.OS;
  * limitations under the License.
  * </pre>
  */
-public class ClientClassResolver {
+public class DriverClassResolver {
 
     /**
      * 缓存方法对应的client
@@ -59,7 +59,7 @@ public class ClientClassResolver {
      *
      * @param allowedPublicOnly 只允许公共的方法, 默认为true
      */
-    public ClientClassResolver(boolean allowedPublicOnly) {
+    public DriverClassResolver(boolean allowedPublicOnly) {
         this.allowedPublicOnly = allowedPublicOnly;
     }
 

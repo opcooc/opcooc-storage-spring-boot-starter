@@ -15,8 +15,8 @@
  */
 package com.opcooc.storage.processor;
 
-import javax.servlet.http.HttpServletRequest;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -50,7 +50,7 @@ public class OsSessionProcessor extends OsProcessor {
     }
 
     @Override
-    public String doDetermineClient(MethodInvocation invocation, String key) {
+    public String doDetermineDriver(MethodInvocation invocation, String key) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         return request.getSession().getAttribute(key.substring(9)).toString();
     }

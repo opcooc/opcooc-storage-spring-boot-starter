@@ -20,7 +20,6 @@ import org.aopalliance.intercept.MethodInvocation;
 
 import com.opcooc.storage.context.DynamicDriverContext;
 import com.opcooc.storage.processor.OsProcessor;
-import com.opcooc.storage.support.ClientClassResolver;
 
 /**
  * Copyright © 2018 organization baomidou
@@ -38,18 +37,18 @@ import com.opcooc.storage.support.ClientClassResolver;
  * limitations under the License.
  * </pre>
  */
-public class DynamicClientAnnotationInterceptor implements MethodInterceptor {
+public class DynamicDriverAnnotationInterceptor implements MethodInterceptor {
 
     /**
      * The identification of SPEL.
      */
     private static final String DYNAMIC_PREFIX = "#";
 
-    private final ClientClassResolver clientClassResolver;
+    private final DriverClassResolver driverClassResolver;
     private final OsProcessor osProcessor;
 
-    public DynamicClientAnnotationInterceptor(Boolean allowedPublicOnly, OsProcessor osProcessor) {
-        clientClassResolver = new ClientClassResolver(allowedPublicOnly);
+    public DynamicDriverAnnotationInterceptor(Boolean allowedPublicOnly, OsProcessor osProcessor) {
+        driverClassResolver = new DriverClassResolver(allowedPublicOnly);
         this.osProcessor = osProcessor;
     }
 
@@ -65,8 +64,8 @@ public class DynamicClientAnnotationInterceptor implements MethodInterceptor {
     }
 
     private String determineClientKey(MethodInvocation invocation) {
-        String key = clientClassResolver.findOsKey(invocation.getMethod(), invocation.getThis());
-        return (!key.isEmpty() && key.startsWith(DYNAMIC_PREFIX)) ? osProcessor.determineClient(invocation, key) : key;
+        String key = driverClassResolver.findOsKey(invocation.getMethod(), invocation.getThis());
+        return (!key.isEmpty() && key.startsWith(DYNAMIC_PREFIX)) ? osProcessor.determineDriver(invocation, key) : key;
     }
 
 }

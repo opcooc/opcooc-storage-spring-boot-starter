@@ -82,7 +82,7 @@ public class OsSpelExpressionProcessor extends OsProcessor {
     }
 
     @Override
-    public String doDetermineClient(MethodInvocation invocation, String key) {
+    public String doDetermineDriver(MethodInvocation invocation, String key) {
         Method method = invocation.getMethod();
         Object[] arguments = invocation.getArguments();
         EvaluationContext context = new MethodBasedEvaluationContext(null, method, arguments, NAME_DISCOVERER);

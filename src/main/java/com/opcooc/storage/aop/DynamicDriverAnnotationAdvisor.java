@@ -54,14 +54,14 @@ import lombok.NonNull;
  * limitations under the License.
  * </pre>
  */
-public class DynamicClientAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
+public class DynamicDriverAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
 
     private final Advice advice;
 
     private final Pointcut pointcut;
 
-    public DynamicClientAnnotationAdvisor(@NonNull DynamicClientAnnotationInterceptor dynamicClientAnnotationInterceptor) {
-        this.advice = dynamicClientAnnotationInterceptor;
+    public DynamicDriverAnnotationAdvisor(@NonNull DynamicDriverAnnotationInterceptor dynamicDriverAnnotationInterceptor) {
+        this.advice = dynamicDriverAnnotationInterceptor;
         this.pointcut = buildPointcut();
     }
 

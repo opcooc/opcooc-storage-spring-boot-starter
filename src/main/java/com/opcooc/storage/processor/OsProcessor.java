@@ -60,16 +60,16 @@ public abstract class OsProcessor {
      * @param key        OS注解里的内容
      * @return 客户端名称
      */
-    public String determineClient(MethodInvocation invocation, String key) {
+    public String determineDriver(MethodInvocation invocation, String key) {
         if (matches(key)) {
-            String datasource = doDetermineClient(invocation, key);
+            String datasource = doDetermineDriver(invocation, key);
             if (datasource == null && nextProcessor != null) {
-                return nextProcessor.determineClient(invocation, key);
+                return nextProcessor.determineDriver(invocation, key);
             }
             return datasource;
         }
         if (nextProcessor != null) {
-            return nextProcessor.determineClient(invocation, key);
+            return nextProcessor.determineDriver(invocation, key);
         }
         return null;
     }
@@ -81,5 +81,5 @@ public abstract class OsProcessor {
      * @param key        OS注解里的内容
      * @return 客户端名称
      */
-    public abstract String doDetermineClient(MethodInvocation invocation, String key);
+    public abstract String doDetermineDriver(MethodInvocation invocation, String key);
 }

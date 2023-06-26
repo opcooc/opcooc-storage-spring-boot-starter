@@ -26,7 +26,7 @@ import java.util.*;
 public class DriverAdapterManager implements DriverAdapter, InitializingBean, ApplicationContextAware {
 
     @Setter
-    private String primary = "s3";
+    private String primary;
     @Setter
     private Boolean strict = false;
     @Getter

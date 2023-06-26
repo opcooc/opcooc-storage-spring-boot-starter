@@ -15,7 +15,19 @@
  */
 package com.opcooc.storage.spring.boot.autoconfigure;
 
+import com.opcooc.storage.StorageHelper;
+import com.opcooc.storage.aop.DynamicDriverAnnotationAdvisor;
+import com.opcooc.storage.aop.DynamicDriverAnnotationInterceptor;
+import com.opcooc.storage.converter.S3DriverAdapterConverter;
+import com.opcooc.storage.processor.OsHeaderProcessor;
+import com.opcooc.storage.processor.OsProcessor;
+import com.opcooc.storage.processor.OsSessionProcessor;
+import com.opcooc.storage.processor.OsSpelExpressionProcessor;
+import com.opcooc.storage.provider.YmlDriverPropertiesProvider;
+import com.opcooc.storage.support.BucketConverter;
 import com.opcooc.storage.support.DriverAdapterManager;
+import com.opcooc.storage.support.ObjectConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -26,19 +38,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-
-import com.opcooc.storage.StorageNFSService;
-import com.opcooc.storage.aop.DynamicClientAnnotationAdvisor;
-import com.opcooc.storage.aop.DynamicClientAnnotationInterceptor;
-import com.opcooc.storage.processor.OsHeaderProcessor;
-import com.opcooc.storage.processor.OsProcessor;
-import com.opcooc.storage.processor.OsSessionProcessor;
-import com.opcooc.storage.processor.OsSpelExpressionProcessor;
-import com.opcooc.storage.provider.YmlDriverPropertiesProvider;
-import com.opcooc.storage.support.BucketConverter;
-import com.opcooc.storage.support.ObjectConverter;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * 自动IOC注入类
@@ -62,6 +61,12 @@ public class StorageAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public S3DriverAdapterConverter s3DriverAdapterConverter() {
+        return new S3DriverAdapterConverter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public DriverAdapterManager driverAdapterManager() {
         DriverAdapterManager dataSource = new DriverAdapterManager();
         dataSource.setPrimary(properties.getPrimary());
@@ -70,10 +75,10 @@ public class StorageAutoConfiguration {
     }
 
     @Bean
-    public StorageNFSService storageClient(@NonNull DriverAdapterManager driverAdapterManager,
-                                           @Nullable @Autowired(required = false) BucketConverter bucketConverter,
-                                           @Nullable @Autowired(required = false) ObjectConverter objectConverter) {
-        StorageNFSService client = new StorageNFSService(driverAdapterManager);
+    public StorageHelper storageHelper(@NonNull DriverAdapterManager driverAdapterManager,
+                                       @Nullable @Autowired(required = false) BucketConverter bucketConverter,
+                                       @Nullable @Autowired(required = false) ObjectConverter objectConverter) {
+        StorageHelper client = new StorageHelper(driverAdapterManager);
         if (bucketConverter != null) {
             client.setBucketConverter(bucketConverter);
         }
@@ -97,9 +102,9 @@ public class StorageAutoConfiguration {
     @Role(value = BeanDefinition.ROLE_INFRASTRUCTURE)
     @Bean
     @ConditionalOnMissingBean
-    public DynamicClientAnnotationAdvisor dynamicStorageAnnotationAdvisor(OsProcessor osProcessor) {
-        DynamicClientAnnotationInterceptor interceptor = new DynamicClientAnnotationInterceptor(properties.isAllowedPublicOnly(), osProcessor);
-        DynamicClientAnnotationAdvisor advisor = new DynamicClientAnnotationAdvisor(interceptor);
+    public DynamicDriverAnnotationAdvisor dynamicStorageAnnotationAdvisor(OsProcessor osProcessor) {
+        DynamicDriverAnnotationInterceptor interceptor = new DynamicDriverAnnotationInterceptor(properties.isAllowedPublicOnly(), osProcessor);
+        DynamicDriverAnnotationAdvisor advisor = new DynamicDriverAnnotationAdvisor(interceptor);
         advisor.setOrder(properties.getOrder());
         return advisor;
     }

@@ -59,7 +59,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0.0
  */
 @Slf4j
-public class StorageNFSService implements InitializingBean, NFSService {
+public class StorageHelper implements InitializingBean, NFSService {
 
     private final DriverAdapterManager manager;
 
@@ -69,7 +69,7 @@ public class StorageNFSService implements InitializingBean, NFSService {
     @Setter
     private ObjectConverter objectConverter = (config, object) -> object.getObjectName();
 
-    public StorageNFSService(DriverAdapterManager driverAdapterManager) {
+    public StorageHelper(DriverAdapterManager driverAdapterManager) {
         this.manager = driverAdapterManager;
     }
 
