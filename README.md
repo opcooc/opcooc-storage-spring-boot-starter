@@ -79,7 +79,6 @@
 -   基础yaml配置。
 
     ```yaml
-        opcooc:
           storage:
             dynamic:
               primary: s3_minio #默认的客户端类型
@@ -99,7 +98,6 @@
     ```
 -   其他yaml配置(oss, cos, kodo)。
     ```yaml
-        opcooc:
           storage:
             dynamic:
               primary: s3_minio #默认的客户端类型
