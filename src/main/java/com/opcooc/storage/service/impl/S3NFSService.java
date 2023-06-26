@@ -66,7 +66,7 @@ import com.opcooc.storage.model.UrlResult;
 import com.opcooc.storage.service.NFSService;
 import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
 import com.opcooc.storage.toolkit.ContentTypeUtils;
-import com.opcooc.storage.toolkit.StorageUtil;
+import com.opcooc.storage.toolkit.StorageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -244,7 +244,7 @@ public class S3NFSService implements NFSService {
             metadata.setContentLength(args.getObjectSize());
             metadata.setContentType(args.getContentType());
             PutObjectResult result = client.putObject(args.getBucketName(), args.getObjectName(), args.getStream(), metadata);
-            return StorageUtil.createFileBasicInfo(result, args, args.getObjectSize());
+            return StorageUtils.createFileBasicInfo(result, args, args.getObjectSize());
         } catch (Exception e) {
             throw new StorageException(e);
         }
@@ -254,7 +254,7 @@ public class S3NFSService implements NFSService {
     public FileBasicInfo uploadFile(UploadArgs args) {
         try {
             PutObjectResult result = client.putObject(args.getBucketName(), args.getObjectName(), args.getFile());
-            return StorageUtil.createFileBasicInfo(result, args, args.getObjectSize());
+            return StorageUtils.createFileBasicInfo(result, args, args.getObjectSize());
         } catch (Exception e) {
             throw new StorageException(e);
         }
@@ -296,7 +296,7 @@ public class S3NFSService implements NFSService {
             //判断对象是否存在
             checkObjectExist(args);
             ObjectMetadata object = client.getObjectMetadata(args.getBucketName(), args.getObjectName());
-            return StorageUtil.createFileBasicInfo(object, args);
+            return StorageUtils.createFileBasicInfo(object, args);
         } catch (Exception e) {
             throw new StorageException(e);
         }
@@ -359,7 +359,7 @@ public class S3NFSService implements NFSService {
             result = client.listObjectsV2(req);
 
             for (S3ObjectSummary object : result.getObjectSummaries()) {
-                objectList.add(StorageUtil.createFileBasicInfo(object, args));
+                objectList.add(StorageUtils.createFileBasicInfo(object, args));
             }
             // If there are more than maxKeys keys in the bucket, get a continuation token
             // and list the next objects.

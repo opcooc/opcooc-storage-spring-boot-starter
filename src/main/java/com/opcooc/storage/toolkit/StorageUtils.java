@@ -15,11 +15,6 @@
  */
 package com.opcooc.storage.toolkit;
 
-import java.lang.reflect.Constructor;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.util.ClassUtils;
-
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
@@ -32,7 +27,7 @@ import com.opcooc.storage.model.FileBasicInfo;
  * @author shenqicheng
  * @since 1.0.0
  */
-public class StorageUtil {
+public class StorageUtils {
 
     public static FileBasicInfo createFileBasicInfo(PutObjectResult result, ObjectArgs args, Long contentLength) {
         FileBasicInfo info = new FileBasicInfo();
@@ -65,43 +60,6 @@ public class StorageUtil {
         info.setMetadata(metadata.getRawMetadata());
         info.setUserMetadata(metadata.getUserMetadata());
         return info;
-    }
-
-    /**
-     * 获得对象数组的类数组
-     *
-     * @param objects 对象数组，如果数组中存在{@code null}元素，则此元素被认为是Object类型
-     * @return 类数组
-     */
-    public static Class<?>[] getObjectClass(Object... objects) {
-        Class<?>[] classes = new Class<?>[objects.length];
-        Object obj;
-        for (int i = 0; i < objects.length; i++) {
-            obj = objects[i];
-            if (null == obj) {
-                classes[i] = Object.class;
-            } else {
-                classes[i] = obj.getClass();
-            }
-        }
-        return classes;
-    }
-
-    public static <T> T instantiateClass(Class<T> clazz, Object... params) {
-        try {
-            if (params == null || params.length == 0) {
-                return clazz.getDeclaredConstructor().newInstance();
-            }
-            Class<?>[] objectClass = StorageUtil.getObjectClass(params);
-            Constructor<T> constructor = ClassUtils.getConstructorIfAvailable(clazz, objectClass);
-            if (constructor == null) {
-                return clazz.getDeclaredConstructor().newInstance();
-            }
-            return BeanUtils.instantiateClass(constructor, params);
-        } catch (Exception e) {
-            // 无自定义匹配
-            return null;
-        }
     }
 
 }

@@ -68,10 +68,10 @@ public class StorageAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public DriverAdapterManager driverAdapterManager() {
-        DriverAdapterManager dataSource = new DriverAdapterManager();
-        dataSource.setPrimary(properties.getPrimary());
-        dataSource.setStrict(properties.getStrict());
-        return dataSource;
+        DriverAdapterManager manager = new DriverAdapterManager();
+        manager.setPrimary(properties.getPrimary());
+        manager.setStrict(properties.getStrict());
+        return manager;
     }
 
     @Bean

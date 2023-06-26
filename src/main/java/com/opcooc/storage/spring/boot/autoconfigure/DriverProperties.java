@@ -15,6 +15,7 @@
  */
 package com.opcooc.storage.spring.boot.autoconfigure;
 
+import com.opcooc.storage.constant.DriverType;
 import org.springframework.util.StringUtils;
 
 import com.opcooc.storage.exception.StorageException;
@@ -39,7 +40,7 @@ public class DriverProperties {
     /**
      * 类型
      */
-    private String type;
+    private String type = DriverType.S3;
 
     /**
      * 默认主目录(需要保证唯一)

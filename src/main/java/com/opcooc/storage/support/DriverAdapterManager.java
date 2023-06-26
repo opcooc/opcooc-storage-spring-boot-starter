@@ -26,7 +26,7 @@ import java.util.*;
 public class DriverAdapterManager implements DriverAdapter, InitializingBean, ApplicationContextAware {
 
     @Setter
-    private String primary;
+    private String primary = "s3";
     @Setter
     private Boolean strict = false;
     @Getter
@@ -150,16 +150,17 @@ public class DriverAdapterManager implements DriverAdapter, InitializingBean, Ap
 
     private Map<String, DriverAdapter> loadDriverAdapter() {
         Map<String, DriverAdapter> result = new HashMap<>();
-        for (DriverPropertiesProvider provider : getProviders()) {
+        for (DriverPropertiesProvider provider : this.getProviders()) {
             Map<String, DriverProperties> driverPropertiesMap = provider.loadProperties();
             if (CollectionUtils.isEmpty(driverPropertiesMap)) {
                 continue;
             }
             for (Map.Entry<String, DriverProperties> item : driverPropertiesMap.entrySet()) {
-                String driverName = item.getKey();
-                DriverProperties driverProperties = item.getValue();
-                DriverAdapter driver = convert(driverName, driverProperties);
-                result.put(driverName, driver);
+                DriverAdapter driver = convert(item.getKey(), item.getValue());
+                if (driver == null) {
+                    continue;
+                }
+                result.put(driver.driver(), driver);
             }
         }
         return result;

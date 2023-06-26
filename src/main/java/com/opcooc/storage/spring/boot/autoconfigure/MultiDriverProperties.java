@@ -47,7 +47,7 @@ public class MultiDriverProperties {
     /**
      * 默认的客户端类型
      */
-    private String primary = DriverType.S3;
+    private String primary = "s3";
 
     /**
      * 是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
