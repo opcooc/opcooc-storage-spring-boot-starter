@@ -18,6 +18,7 @@ package com.opcooc.storage.spring.boot.autoconfigure;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.opcooc.storage.constant.DriverType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.Ordered;
 
@@ -32,10 +33,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = DynamicStorageProperties.PREFIX)
-public class DynamicStorageProperties {
+@ConfigurationProperties(prefix = MultiDriverProperties.PREFIX)
+public class MultiDriverProperties {
 
-    public static final String PREFIX = "opcooc.storage.dynamic";
+    public static final String PREFIX = "storage";
     public static final String ENABLED = "enabled";
 
     /**
@@ -46,7 +47,7 @@ public class DynamicStorageProperties {
     /**
      * 默认的客户端类型
      */
-    private String primary = "s3";
+    private String primary = DriverType.S3;
 
     /**
      * 是否启用严格模式,默认不启动. 严格模式下未匹配到客户端直接报错, 非严格模式下则使用默认客户端primary所设置的客户端
@@ -56,7 +57,7 @@ public class DynamicStorageProperties {
     /**
      * 默认s3配置
      */
-    private Map<String, ClientDriverProperty> driver = new HashMap<>();
+    private Map<String, DriverProperties> driver = new HashMap<>();
 
     /**
      * aop切面顺序，默认优先级最高

@@ -11,9 +11,9 @@ buildscript {
 
 plugins {
     id "io.freefair.lombok" version "6.5.1"
-    id "org.springframework.boot" version "2.7.3"
+    id "org.springframework.boot" version "3.1.1"
     id "com.github.hierynomus.license" version "0.16.1"
-    id "io.spring.dependency-management" version "1.0.13.RELEASE"
+    id "io.spring.dependency-management" version "1.1.0"
 }
 
 allprojects {
@@ -31,8 +31,8 @@ apply plugin: "io.freefair.lombok"
 apply plugin: 'org.springframework.boot'
 apply plugin: "io.spring.dependency-management"
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 //checkstyle {
 //    configFile = file("style/checkstyle.xml") //指定checkstyle配置文件
@@ -90,7 +90,7 @@ repositories {
 
 dependencies {
 
-    api 'com.amazonaws:aws-java-sdk-s3:1.12.305'
+    api 'com.amazonaws:aws-java-sdk-s3:1.12.495'
     api "org.springframework.boot:spring-boot-autoconfigure"
 
     annotationProcessor "org.springframework.boot:spring-boot-autoconfigure-processor"
@@ -103,7 +103,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
 
 //    checkstyle 'com.thomasjensen.checkstyle.addons:checkstyle-addons:7.0.1'
-    implementation 'org.slf4j:slf4j-api:2.0.1'
+    implementation 'org.slf4j:slf4j-api:2.0.6'
 }
 
 task sourcesJar(type: Jar) {

@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import com.opcooc.storage.model.UrlResult;
+import com.opcooc.storage.support.DriverAdapterManager;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.ObjectUtils;
 
@@ -36,11 +37,10 @@ import com.opcooc.storage.args.ObjectArgs;
 import com.opcooc.storage.args.ObjectToFileArgs;
 import com.opcooc.storage.args.PresignedUrlArgs;
 import com.opcooc.storage.args.UploadArgs;
-import com.opcooc.storage.client.Client;
-import com.opcooc.storage.drivers.ClientDriver;
+import com.opcooc.storage.service.NFSService;
 import com.opcooc.storage.exception.StorageException;
 import com.opcooc.storage.model.FileBasicInfo;
-import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
+import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
 import com.opcooc.storage.support.BucketConverter;
 import com.opcooc.storage.support.ObjectConverter;
 import com.opcooc.storage.toolkit.ContentTypeUtils;
@@ -59,9 +59,9 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0.0
  */
 @Slf4j
-public class StorageClient implements InitializingBean, Client {
+public class StorageNFSService implements InitializingBean, NFSService {
 
-    private final ClientDriver clientDriver;
+    private final DriverAdapterManager manager;
 
     @Setter
     private BucketConverter bucketConverter = (config, bucket) ->
@@ -69,16 +69,16 @@ public class StorageClient implements InitializingBean, Client {
     @Setter
     private ObjectConverter objectConverter = (config, object) -> object.getObjectName();
 
-    public StorageClient(ClientDriver clientDriver) {
-        this.clientDriver = clientDriver;
+    public StorageNFSService(DriverAdapterManager driverAdapterManager) {
+        this.manager = driverAdapterManager;
     }
 
-    private Client getConnect() {
-        return clientDriver.connect();
+    private NFSService getConnect() {
+        return manager.connect();
     }
 
-    private ClientDriverProperty getConfiguration() {
-        return clientDriver.getConfiguration();
+    private DriverProperties getConfiguration() {
+        return manager.configuration();
     }
 
     /**
@@ -90,7 +90,7 @@ public class StorageClient implements InitializingBean, Client {
     private String determineBucket(BucketArgs args) {
         log.debug("opcooc-storage - determine bucket name before [{}]", args.getBucketName());
 
-        ClientDriverProperty config = getConfiguration();
+        DriverProperties config = getConfiguration();
         BucketConverter converter = args.getBucketConverter() == null ? bucketConverter : args.getBucketConverter();
         String bucketName = converter.convert(config, args);
 
@@ -331,7 +331,7 @@ public class StorageClient implements InitializingBean, Client {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (clientDriver == null) {
+        if (manager == null) {
             throw new StorageException("clientSource must not be null");
         }
 

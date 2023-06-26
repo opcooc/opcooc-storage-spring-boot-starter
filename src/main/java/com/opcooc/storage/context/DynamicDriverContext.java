@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.opcooc.storage.holder;
+package com.opcooc.storage.context;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 /**
  * Copyright © 2018 organization baomidou
@@ -38,7 +37,7 @@ import org.springframework.util.StringUtils;
  * limitations under the License.
  * </pre>
  */
-public final class DynamicClientContextHolder {
+public final class DynamicDriverContext {
 
     /**
      * 为什么要用链表存储(准确的是栈)
@@ -55,7 +54,7 @@ public final class DynamicClientContextHolder {
         }
     };
 
-    private DynamicClientContextHolder() {
+    private DynamicDriverContext() {
     }
 
     /**

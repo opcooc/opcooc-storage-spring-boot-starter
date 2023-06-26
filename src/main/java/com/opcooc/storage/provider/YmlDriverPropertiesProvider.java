@@ -13,32 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.opcooc.storage.drivers;
+package com.opcooc.storage.provider;
 
-import com.opcooc.storage.client.Client;
-import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
+import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
+import lombok.AllArgsConstructor;
+
+import java.util.Map;
 
 /**
+ * 获取yml s3 客户端驱动类
+ *
  * @author shenqicheng
  * @since 1.0.0
  */
-public abstract class AbstractRoutingClientDriver implements ClientDriver {
+@AllArgsConstructor
+public class YmlDriverPropertiesProvider implements DriverPropertiesProvider {
 
     /**
-     * 子类实现决定最终client
-     *
-     * @return 数据源
+     * 加载存储配置
      */
-    protected abstract ClientDriver determineClientDriver();
+    private final Map<String, DriverProperties> propertiesMap;
 
     @Override
-    public Client connect() {
-        return determineClientDriver().connect();
+    public Map<String, DriverProperties> loadProperties() {
+        return propertiesMap;
     }
-
-    @Override
-    public ClientDriverProperty getConfiguration() {
-        return determineClientDriver().getConfiguration();
-    }
-
 }

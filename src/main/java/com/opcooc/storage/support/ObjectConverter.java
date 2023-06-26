@@ -16,7 +16,7 @@
 package com.opcooc.storage.support;
 
 import com.opcooc.storage.args.ObjectArgs;
-import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
+import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
 
 /**
  * object转换器
@@ -33,6 +33,6 @@ public interface ObjectConverter {
      * @param object 传入的object名称
      * @return 转换后的名称
      */
-    String convert(ClientDriverProperty config, ObjectArgs object);
+    String convert(DriverProperties config, ObjectArgs object);
 
 }

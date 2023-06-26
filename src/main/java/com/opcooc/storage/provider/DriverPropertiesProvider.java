@@ -15,29 +15,22 @@
  */
 package com.opcooc.storage.provider;
 
+import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
+
 import java.util.Map;
 
-import com.opcooc.storage.drivers.ClientDriver;
-import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
-
-import lombok.AllArgsConstructor;
-
 /**
- * 获取yml s3 客户端驱动类
+ * 获取所有客户端驱动类
  *
  * @author shenqicheng
  * @since 1.0.0
  */
-@AllArgsConstructor
-public class YmlClientDriverProvider extends AbstractClientDriverProvider {
+public interface DriverPropertiesProvider {
 
     /**
-     * 加载存储配置
+     * 加载客户端驱动
+     *
+     * @return 驱动列表
      */
-    private final Map<String, ClientDriverProperty> storagePropertiesMap;
-
-    @Override
-    public Map<String, ClientDriver> loadClientDrivers() {
-        return createClientDriverMap(storagePropertiesMap);
-    }
+    Map<String, DriverProperties> loadProperties();
 }

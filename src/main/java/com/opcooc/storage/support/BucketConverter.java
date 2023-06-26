@@ -16,7 +16,7 @@
 package com.opcooc.storage.support;
 
 import com.opcooc.storage.args.BucketArgs;
-import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
+import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
 
 /**
  * bucket名称转换器
@@ -32,6 +32,6 @@ public interface BucketConverter {
      * @param bucket 传入的bucket名称
      * @return 名称
      */
-    String convert(ClientDriverProperty config, BucketArgs bucket);
+    String convert(DriverProperties config, BucketArgs bucket);
 
 }

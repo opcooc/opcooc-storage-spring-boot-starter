@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.opcooc.storage.drivers;
+package com.opcooc.storage.adapter;
 
 import java.io.IOException;
 
-import com.opcooc.storage.client.Client;
+import com.opcooc.storage.service.NFSService;
 import com.opcooc.storage.exception.StorageException;
-import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
+import com.opcooc.storage.service.impl.S3NFSService;
+import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,31 +29,38 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0.0
  */
 @Slf4j
-public class DefaultClientDriver implements ClientDriver {
+public class S3DriverAdapter implements DriverAdapter {
 
-    private final ClientDriverProperty configuration;
-    private final Client connect;
-    private final String name;
+    private final DriverProperties configuration;
+    private final NFSService connect;
+    private final String driver;
 
-    public DefaultClientDriver(ClientDriverProperty property, Client connect) {
-        this.name = property.getDriver();
-        this.configuration = property;
-        this.connect = connect;
+    public S3DriverAdapter(String driver, DriverProperties properties) {
+        // 校验配置合法性
+        properties.preCheck();
+        this.driver = driver;
+        this.configuration = properties;
+        this.connect = new S3NFSService(driver, properties);
     }
 
     @Override
-    public Client connect() {
+    public String driver() {
+        return null;
+    }
+
+    @Override
+    public NFSService connect() {
         return connect;
     }
 
     @Override
-    public ClientDriverProperty getConfiguration() {
+    public DriverProperties configuration() {
         return configuration;
     }
 
     @Override
     public void close() throws IOException {
-        log.debug("opcooc-storage - shutdown [{}] client driver", name);
+        log.debug("opcooc-storage - shutdown [{}] client driver", driver);
         try {
             connect.close();
         } catch (Exception e) {

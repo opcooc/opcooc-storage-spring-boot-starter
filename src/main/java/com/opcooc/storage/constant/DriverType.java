@@ -13,30 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.opcooc.storage.drivers;
-
-import java.io.Closeable;
-
-import com.opcooc.storage.client.Client;
-import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
+package com.opcooc.storage.constant;
 
 /**
- * @author shenqicheng
- * @since 1.0.0
+ * @author cosmos
  */
-public interface ClientDriver extends Closeable {
-
-    /**
-     * 得到client操作类
-     *
-     * @return 操作类
-     */
-    Client connect();
-
-    /**
-     * 得到ClientDriver配置信息
-     *
-     * @return 配置信息
-     */
-    ClientDriverProperty getConfiguration();
+public class DriverType {
+    /* */
+    public static final String LOCAL = "LOCAL";
+    public static final String S3 = "S3";
 }

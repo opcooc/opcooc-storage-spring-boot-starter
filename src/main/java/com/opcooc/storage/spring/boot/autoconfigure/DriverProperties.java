@@ -17,8 +17,7 @@ package com.opcooc.storage.spring.boot.autoconfigure;
 
 import org.springframework.util.StringUtils;
 
-import com.opcooc.storage.client.Client;
-import com.opcooc.storage.enums.DefaultDriverType;
+import com.opcooc.storage.constant.DriverType;
 import com.opcooc.storage.exception.StorageException;
 
 import lombok.AllArgsConstructor;
@@ -36,17 +35,12 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientDriverProperty {
+public class DriverProperties {
 
     /**
-     * 客户端驱动名称唯一标识 (默认为配置文件key名称)
+     * 类型
      */
-    private String driver;
-
-    /**
-     * 默认驱动类型 只实现了 s3
-     */
-    private DefaultDriverType type = DefaultDriverType.S3;
+    private String type;
 
     /**
      * 默认主目录(需要保证唯一)
@@ -59,14 +53,14 @@ public class ClientDriverProperty {
     private String endpoint;
 
     /**
-     * 访问密钥
+     * 账号
      */
-    private String username;
+    private String accessKey;
 
     /**
-     * 密钥
+     * 密码
      */
-    private String password;
+    private String secretKey;
 
     /**
      * 路径样式(默认为true)
@@ -83,15 +77,10 @@ public class ClientDriverProperty {
     private Boolean autoCreateBucket = false;
 
     /**
-     * 自定义客户端clazz
-     */
-    private Class<? extends Client> customClient;
-
-    /**
      * 客户端驱动参数预处理(抛出内置异常)
      */
     public void preCheck() throws StorageException {
-        if (!StringUtils.hasText(username) || !StringUtils.hasText(password) || !StringUtils.hasText(endpoint)) {
+        if (!StringUtils.hasText(accessKey) || !StringUtils.hasText(secretKey) || !StringUtils.hasText(endpoint)) {
             throw new StorageException("property pre check error, params incomplete.");
         }
     }

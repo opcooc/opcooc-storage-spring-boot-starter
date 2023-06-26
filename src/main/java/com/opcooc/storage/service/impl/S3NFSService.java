@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.opcooc.storage.client;
+package com.opcooc.storage.service.impl;
 
 import static java.util.stream.Collectors.toList;
 
@@ -63,7 +63,8 @@ import com.opcooc.storage.args.UploadArgs;
 import com.opcooc.storage.exception.StorageException;
 import com.opcooc.storage.model.FileBasicInfo;
 import com.opcooc.storage.model.UrlResult;
-import com.opcooc.storage.spring.boot.autoconfigure.ClientDriverProperty;
+import com.opcooc.storage.service.NFSService;
+import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
 import com.opcooc.storage.toolkit.ContentTypeUtils;
 import com.opcooc.storage.toolkit.StorageUtil;
 
@@ -74,7 +75,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 1.0.0
  */
 @Slf4j
-public class S3Client implements Client {
+public class S3NFSService implements NFSService {
 
     /**
      * client
@@ -84,22 +85,22 @@ public class S3Client implements Client {
     /**
      * configuration
      */
-    private final ClientDriverProperty configuration;
+    private final DriverProperties configuration;
 
-    public S3Client(ClientDriverProperty configuration) {
-        AWSCredentials credentials = new BasicAWSCredentials(configuration.getUsername(), configuration.getPassword());
+    public S3NFSService(String driver, DriverProperties properties) {
+        AWSCredentials credentials = new BasicAWSCredentials(properties.getAccessKey(), properties.getSecretKey());
 
         AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder
-                .EndpointConfiguration(configuration.getEndpoint(), configuration.getRegion());
+                .EndpointConfiguration(properties.getEndpoint(), properties.getRegion());
 
         AmazonS3 s3 = AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withPathStyleAccessEnabled(configuration.getPathStyle())
+                .withPathStyleAccessEnabled(properties.getPathStyle())
                 .withEndpointConfiguration(endpointConfiguration)
                 .build();
 
-        log.debug("opcooc-storage - init client driver [{}] success", configuration.getDriver());
-        this.configuration = configuration;
+        log.debug("opcooc-storage - init client driver [{}] success", driver);
+        this.configuration = properties;
         this.client = s3;
     }
 

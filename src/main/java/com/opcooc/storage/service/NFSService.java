@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.opcooc.storage.client;
+package com.opcooc.storage.service;
 
 import java.io.Closeable;
 import java.io.File;
@@ -41,7 +41,7 @@ import com.opcooc.storage.model.UrlResult;
  * @author shenqicheng
  * @since 1.0.0
  */
-public interface Client extends Closeable {
+public interface NFSService extends Closeable {
 
     /**
      * 获取配置默认的 bucketName

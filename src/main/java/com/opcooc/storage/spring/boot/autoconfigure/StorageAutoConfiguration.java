@@ -15,6 +15,7 @@
  */
 package com.opcooc.storage.spring.boot.autoconfigure;
 
+import com.opcooc.storage.support.DriverAdapterManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -26,16 +27,14 @@ import org.springframework.context.annotation.Role;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import com.opcooc.storage.StorageClient;
+import com.opcooc.storage.StorageNFSService;
 import com.opcooc.storage.aop.DynamicClientAnnotationAdvisor;
 import com.opcooc.storage.aop.DynamicClientAnnotationInterceptor;
-import com.opcooc.storage.drivers.ClientDriver;
-import com.opcooc.storage.drivers.DynamicRoutingClientDriver;
 import com.opcooc.storage.processor.OsHeaderProcessor;
 import com.opcooc.storage.processor.OsProcessor;
 import com.opcooc.storage.processor.OsSessionProcessor;
 import com.opcooc.storage.processor.OsSpelExpressionProcessor;
-import com.opcooc.storage.provider.YmlClientDriverProvider;
+import com.opcooc.storage.provider.YmlDriverPropertiesProvider;
 import com.opcooc.storage.support.BucketConverter;
 import com.opcooc.storage.support.ObjectConverter;
 
@@ -49,32 +48,32 @@ import lombok.RequiredArgsConstructor;
  */
 @AutoConfiguration
 @RequiredArgsConstructor
-@EnableConfigurationProperties(DynamicStorageProperties.class)
-@ConditionalOnProperty(prefix = DynamicStorageProperties.PREFIX, name = DynamicStorageProperties.ENABLED, havingValue = "true", matchIfMissing = true)
-public class DynamicStorageAutoConfiguration {
+@EnableConfigurationProperties(MultiDriverProperties.class)
+@ConditionalOnProperty(prefix = MultiDriverProperties.PREFIX, name = MultiDriverProperties.ENABLED, havingValue = "true", matchIfMissing = true)
+public class StorageAutoConfiguration {
 
-    private final DynamicStorageProperties properties;
+    private final MultiDriverProperties properties;
 
     @Bean
     @ConditionalOnMissingBean
-    public YmlClientDriverProvider ymlClientDriverProvider() {
-        return new YmlClientDriverProvider(properties.getDriver());
+    public YmlDriverPropertiesProvider ymlClientDriverProvider() {
+        return new YmlDriverPropertiesProvider(properties.getDriver());
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ClientDriver clientDriver() {
-        DynamicRoutingClientDriver dataSource = new DynamicRoutingClientDriver();
+    public DriverAdapterManager driverAdapterManager() {
+        DriverAdapterManager dataSource = new DriverAdapterManager();
         dataSource.setPrimary(properties.getPrimary());
         dataSource.setStrict(properties.getStrict());
         return dataSource;
     }
 
     @Bean
-    public StorageClient storageClient(@NonNull ClientDriver clientDriver,
-                                       @Nullable @Autowired(required = false) BucketConverter bucketConverter,
-                                       @Nullable @Autowired(required = false) ObjectConverter objectConverter) {
-        StorageClient client = new StorageClient(clientDriver);
+    public StorageNFSService storageClient(@NonNull DriverAdapterManager driverAdapterManager,
+                                           @Nullable @Autowired(required = false) BucketConverter bucketConverter,
+                                           @Nullable @Autowired(required = false) ObjectConverter objectConverter) {
+        StorageNFSService client = new StorageNFSService(driverAdapterManager);
         if (bucketConverter != null) {
             client.setBucketConverter(bucketConverter);
         }

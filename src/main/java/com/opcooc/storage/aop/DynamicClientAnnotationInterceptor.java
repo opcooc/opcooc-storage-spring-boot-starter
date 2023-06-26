@@ -18,7 +18,7 @@ package com.opcooc.storage.aop;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
-import com.opcooc.storage.holder.DynamicClientContextHolder;
+import com.opcooc.storage.context.DynamicDriverContext;
 import com.opcooc.storage.processor.OsProcessor;
 import com.opcooc.storage.support.ClientClassResolver;
 
@@ -57,10 +57,10 @@ public class DynamicClientAnnotationInterceptor implements MethodInterceptor {
     public Object invoke(MethodInvocation invocation) throws Throwable {
         try {
             String scKey = determineClientKey(invocation);
-            DynamicClientContextHolder.push(scKey);
+            DynamicDriverContext.push(scKey);
             return invocation.proceed();
         } finally {
-            DynamicClientContextHolder.poll();
+            DynamicDriverContext.poll();
         }
     }
 

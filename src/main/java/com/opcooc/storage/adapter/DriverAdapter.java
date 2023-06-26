@@ -13,45 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.opcooc.storage.event;
+package com.opcooc.storage.adapter;
 
-import org.springframework.context.ApplicationEvent;
+import com.opcooc.storage.service.NFSService;
+import com.opcooc.storage.spring.boot.autoconfigure.DriverProperties;
+
+import java.io.Closeable;
 
 /**
  * @author shenqicheng
  * @since 1.0.0
  */
-public class ClientDriverEvent extends ApplicationEvent {
+public interface DriverAdapter extends Closeable {
 
-    public static final String EVENT_ADD = "add";
-
-    public static final String EVENT_DELETE = "delete";
-
-    public String driver;
-
-    public String type;
-
-    public ClientDriverEvent(String driver, String type) {
-        super(driver);
-        this.driver = driver;
-        this.type = type;
+    /**
+     * 客户端驱动名称唯一标识 (默认为配置文件key名称)
+     *
+     * @return 标识
+     */
+    default String driver() {
+        throw new RuntimeException("请实现driver方法");
     }
 
     /**
-     * 发生变更的驱动名称
+     * 得到client操作类
      *
-     * @return 驱动名称
+     * @return 操作类
      */
-    public String getDriver() {
-        return driver;
-    }
+    NFSService connect();
 
     /**
-     * 变更的类型(添加: add, 删除: delete)
+     * 得到ClientDriver配置信息
      *
-     * @return 变更的类型
+     * @return 配置信息
      */
-    public String getType() {
-        return type;
-    }
+    DriverProperties configuration();
 }
