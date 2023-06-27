@@ -45,7 +45,7 @@ public class S3DriverAdapter implements DriverAdapter {
 
     @Override
     public String driver() {
-        return null;
+        return driver;
     }
 
     @Override

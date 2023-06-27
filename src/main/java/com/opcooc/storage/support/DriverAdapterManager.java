@@ -156,11 +156,11 @@ public class DriverAdapterManager implements DriverAdapter, InitializingBean, Ap
                 continue;
             }
             for (Map.Entry<String, DriverProperties> item : driverPropertiesMap.entrySet()) {
-                DriverAdapter driver = convert(item.getKey(), item.getValue());
-                if (driver == null) {
+                DriverAdapter adapter = convert(item.getKey(), item.getValue());
+                if (adapter == null) {
                     continue;
                 }
-                result.put(driver.driver(), driver);
+                result.put(adapter.driver(), adapter);
             }
         }
         return result;
@@ -169,9 +169,9 @@ public class DriverAdapterManager implements DriverAdapter, InitializingBean, Ap
     private DriverAdapter convert(String driver, DriverProperties properties) {
         Assert.notNull(properties, "properties cannot be null");
         for (DriverAdapterConverter converter : this.getConverters()) {
-            DriverAdapter authentication = converter.convert(driver, properties);
-            if (authentication != null) {
-                return authentication;
+            DriverAdapter adapter = converter.convert(driver, properties);
+            if (adapter != null) {
+                return adapter;
             }
         }
         return null;
